@@ -1,0 +1,35 @@
+﻿@model IEnumerable<BrewentoryBackend.DataAccess.Shift>
+
+<p>
+    @Html.ActionLink("Create New", "CreateShift")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ShiftName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShiftTimes)
+        </th>        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShiftName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShiftTimes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Timesheet.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditShift", new { id=item.ShiftID }) |            
+            @Html.ActionLink("Delete", "DeleteShift", new { id=item.ShiftID })
+        </td>
+    </tr>
+}
+
+</table>

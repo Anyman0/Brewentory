@@ -6,6 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="01c14ffe54c944a3aa273c173f2e5112" Name="Diagram1">
         <EntityTypeShape EntityType="BrewentoryDBModel.Inventory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BrewentoryDBModel.Timesheet" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BrewentoryDBModel.Notetable" Width="1.5" PointX="0.625" PointY="3.5" />
+        <EntityTypeShape EntityType="BrewentoryDBModel.Shift" Width="1.5" PointX="5.625" PointY="1.125" />
+        <AssociationConnector Association="BrewentoryDBModel.FK__Shifts__Employee__656C112C" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

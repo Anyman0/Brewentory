@@ -169,6 +169,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InventoryViewController.cs" />
+    <Compile Include="Controllers\NoteViewController.cs" />
+    <Compile Include="Controllers\TimesheetViewController.cs" />
     <Compile Include="DataAccess\BrewentoryDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -185,6 +187,15 @@
       <DependentUpon>BrewentoryDBModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\Inventory.cs">
+      <DependentUpon>BrewentoryDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\Notetable.cs">
+      <DependentUpon>BrewentoryDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\Shift.cs">
+      <DependentUpon>BrewentoryDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\Timesheet.cs">
       <DependentUpon>BrewentoryDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -255,9 +266,25 @@
     <Content Include="Views\InventoryView\Edit.cshtml" />
     <Content Include="Views\InventoryView\Create.cshtml" />
     <Content Include="Views\InventoryView\Delete.cshtml" />
+    <Content Include="Views\TimesheetView\Index.cshtml" />
+    <Content Include="Views\TimesheetView\Details.cshtml" />
+    <Content Include="Views\TimesheetView\Create.cshtml" />
+    <Content Include="Views\TimesheetView\Edit.cshtml" />
+    <Content Include="Views\TimesheetView\Delete.cshtml" />
+    <Content Include="Views\NoteView\Index.cshtml" />
+    <Content Include="Views\NoteView\Details.cshtml" />
+    <Content Include="Views\NoteView\Create.cshtml" />
+    <Content Include="Views\NoteView\Edit.cshtml" />
+    <Content Include="Views\NoteView\Delete.cshtml" />
+    <Content Include="Views\TimesheetView\ShiftsPartial.cshtml" />
+    <Content Include="Views\TimesheetView\CreateShift.cshtml" />
+    <Content Include="Views\TimesheetView\EditShift.cshtml" />
+    <Content Include="Views\TimesheetView\DeleteShift.cshtml" />
+    <Content Include="Views\TimesheetView\AutoEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

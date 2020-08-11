@@ -26,5 +26,8 @@ namespace BrewentoryBackend.DataAccess
         }
     
         public virtual DbSet<Inventory> Inventories { get; set; }
+        public virtual DbSet<Timesheet> Timesheets { get; set; }
+        public virtual DbSet<Notetable> Notetables { get; set; }
+        public virtual DbSet<Shift> Shifts { get; set; }
     }
 }
