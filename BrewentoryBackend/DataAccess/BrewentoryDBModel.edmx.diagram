@@ -10,6 +10,7 @@
         <EntityTypeShape EntityType="BrewentoryDBModel.Notetable" Width="1.5" PointX="0.625" PointY="3.5" />
         <EntityTypeShape EntityType="BrewentoryDBModel.Shift" Width="1.5" PointX="5.625" PointY="1.125" />
         <AssociationConnector Association="BrewentoryDBModel.FK__Shifts__Employee__656C112C" />
+        <EntityTypeShape EntityType="BrewentoryDBModel.LiveTable" Width="1.5" PointX="3.375" PointY="4.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

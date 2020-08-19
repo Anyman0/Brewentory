@@ -29,5 +29,6 @@ namespace BrewentoryBackend.DataAccess
         public virtual DbSet<Timesheet> Timesheets { get; set; }
         public virtual DbSet<Notetable> Notetables { get; set; }
         public virtual DbSet<Shift> Shifts { get; set; }
+        public virtual DbSet<LiveTable> LiveTables { get; set; }
     }
 }

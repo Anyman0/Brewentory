@@ -14,6 +14,14 @@
           <Property Name="Product" Type="nvarchar" MaxLength="50" />
           <Property Name="Quantity" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="LiveTable">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product" Type="nvarchar" MaxLength="30" />
+          <Property Name="Batch" Type="nvarchar" MaxLength="15" />
+        </EntityType>
         <EntityType Name="Notetable">
           <Key>
             <PropertyRef Name="HeadlineID" />
@@ -58,6 +66,7 @@
         </Association>
         <EntityContainer Name="BrewentoryDBModelStoreContainer">
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LiveTable" EntityType="Self.LiveTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notetable" EntityType="Self.Notetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Timesheets" EntityType="Self.Timesheets" Schema="dbo" store:Type="Tables" />
@@ -88,6 +97,7 @@
             <End Role="Timesheet" EntitySet="Timesheets" />
             <End Role="Shift" EntitySet="Shifts" />
           </AssociationSet>
+          <EntitySet Name="LiveTables" EntityType="BrewentoryDBModel.LiveTable" />
         </EntityContainer>
         <EntityType Name="Timesheet">
           <Key>
@@ -133,6 +143,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LiveTable">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Batch" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -179,6 +197,15 @@
                 <ScalarProperty Name="ShiftTimes" ColumnName="ShiftTimes" />
                 <ScalarProperty Name="ShiftName" ColumnName="ShiftName" />
                 <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LiveTables">
+            <EntityTypeMapping TypeName="BrewentoryDBModel.LiveTable">
+              <MappingFragment StoreEntitySet="LiveTable">
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
