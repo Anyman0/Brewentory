@@ -1,6 +1,5 @@
-﻿using BrewentoryBackend.DataAccess;
-using BrewentoryBackend.Models;
-//using Brewentory.Models;
+﻿using Brewentory.Models;
+using BrewentoryBackend.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +7,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
+using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 
 namespace BrewentoryBackend.Controllers
 {
     public class InventoryController : ApiController
     {
              
+        [HttpGet]
         // Get api/inventory    FINALLY WORKS
         public string[] GetAll()
         {
@@ -22,7 +23,7 @@ namespace BrewentoryBackend.Controllers
 
             try
             {
-                inventory = (from iv in entities.Inventories where (iv.Location != null) select iv.Location + " " + iv.Product + " " + iv.Quantity ).ToArray();
+                inventory = (from iv in entities.Inventories where (iv.Location != null) select iv.Location + ", "  + iv.Product + ", " + iv.Quantity).ToArray();
             }
             finally
             {
