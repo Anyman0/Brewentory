@@ -5,6 +5,20 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="BrewentoryDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CompletedWork">
+          <Key>
+            <PropertyRef Name="CompletedWorkID" />
+          </Key>
+          <Property Name="CompletedWorkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Product" Type="nvarchar" MaxLength="50" />
+          <Property Name="Batch" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pallets" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="StartShift" Type="nvarchar" MaxLength="20" />
+          <Property Name="EndShift" Type="nvarchar" MaxLength="20" />
+          <Property Name="Loss" Type="int" />
+        </EntityType>
         <EntityType Name="Inventory">
           <Key>
             <PropertyRef Name="LocationID" />
@@ -14,13 +28,16 @@
           <Property Name="Product" Type="nvarchar" MaxLength="50" />
           <Property Name="Quantity" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="LiveTable">
+        <EntityType Name="LiveView">
           <Key>
             <PropertyRef Name="ProductID" />
           </Key>
           <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Product" Type="nvarchar" MaxLength="30" />
-          <Property Name="Batch" Type="nvarchar" MaxLength="15" />
+          <Property Name="Product" Type="nvarchar" MaxLength="50" />
+          <Property Name="Batch" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pallets" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="LiveStatus" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Notetable">
           <Key>
@@ -65,8 +82,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BrewentoryDBModelStoreContainer">
+          <EntitySet Name="CompletedWork" EntityType="Self.CompletedWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LiveTable" EntityType="Self.LiveTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LiveView" EntityType="Self.LiveView" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notetable" EntityType="Self.Notetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Timesheets" EntityType="Self.Timesheets" Schema="dbo" store:Type="Tables" />
@@ -97,7 +115,8 @@
             <End Role="Timesheet" EntitySet="Timesheets" />
             <End Role="Shift" EntitySet="Shifts" />
           </AssociationSet>
-          <EntitySet Name="LiveTables" EntityType="BrewentoryDBModel.LiveTable" />
+          <EntitySet Name="CompletedWorks" EntityType="BrewentoryDBModel.CompletedWork" />
+          <EntitySet Name="LiveViews" EntityType="BrewentoryDBModel.LiveView" />
         </EntityContainer>
         <EntityType Name="Timesheet">
           <Key>
@@ -143,13 +162,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="LiveTable">
+        <EntityType Name="CompletedWork">
+          <Key>
+            <PropertyRef Name="CompletedWorkID" />
+          </Key>
+          <Property Name="CompletedWorkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Batch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pallets" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="StartShift" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EndShift" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Loss" Type="Int32" />
+        </EntityType>
+        <EntityType Name="LiveView">
           <Key>
             <PropertyRef Name="ProductID" />
           </Key>
           <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Product" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="Batch" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Batch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pallets" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="LiveStatus" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -200,9 +236,27 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LiveTables">
-            <EntityTypeMapping TypeName="BrewentoryDBModel.LiveTable">
-              <MappingFragment StoreEntitySet="LiveTable">
+          <EntitySetMapping Name="CompletedWorks">
+            <EntityTypeMapping TypeName="BrewentoryDBModel.CompletedWork">
+              <MappingFragment StoreEntitySet="CompletedWork">
+                <ScalarProperty Name="Loss" ColumnName="Loss" />
+                <ScalarProperty Name="EndShift" ColumnName="EndShift" />
+                <ScalarProperty Name="StartShift" ColumnName="StartShift" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Pallets" ColumnName="Pallets" />
+                <ScalarProperty Name="Batch" ColumnName="Batch" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CompletedWorkID" ColumnName="CompletedWorkID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LiveViews">
+            <EntityTypeMapping TypeName="BrewentoryDBModel.LiveView">
+              <MappingFragment StoreEntitySet="LiveView">
+                <ScalarProperty Name="LiveStatus" ColumnName="LiveStatus" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Pallets" ColumnName="Pallets" />
                 <ScalarProperty Name="Batch" ColumnName="Batch" />
                 <ScalarProperty Name="Product" ColumnName="Product" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />

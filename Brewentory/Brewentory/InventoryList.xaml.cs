@@ -1,5 +1,7 @@
 ﻿using Brewentory.Models;
 using Newtonsoft.Json;
+using Rg.Plugins.Popup.Extensions;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,18 +19,15 @@ namespace Brewentory
 	public partial class InventoryList : ContentPage
 	{
 
-        public ObservableCollection<BrewentoryModel> inventory { get; set; } 
+        public ObservableCollection<BrewentoryModel> inventory { get; set; }
+        private ObservableCollection<BrewentoryModel> currentInventory { get; set; }       
+        private string[] inventoryArray;
+        private string action;
+
         public InventoryList ()
 		{
-			InitializeComponent ();
-                       
-            inventoryList.ItemSelected += inventoryList_ItemSelected;
-		}
-
-        private void inventoryList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+			InitializeComponent ();                                        
+		}      
 
         protected override async void OnAppearing()
         {
@@ -37,23 +36,99 @@ namespace Brewentory
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
             string json = await client.GetStringAsync("api/inventory/");
-            string[] inventoryArray = JsonConvert.DeserializeObject<string[]>(json);
-            inventoryList.ItemsSource = inventoryArray;
-            
+            inventoryArray = JsonConvert.DeserializeObject<string[]>(json);
+                        
             inventory = new ObservableCollection<BrewentoryModel>();
-            
+            currentInventory = new ObservableCollection<BrewentoryModel>();
 
-            for(int i = 0; i < inventoryArray.Count(); i++)
+            for (int i = 0; i < inventoryArray.Count(); i++)
             {
                 string[] data = inventoryArray[i].Split(",");               
-                inventory.Add(new BrewentoryModel { Location = data[0], Product = data[1], Quantity = data[2] });
+                inventory.Add(new BrewentoryModel { Location = data[0], Product = data[1], Quantity = data[2]});
             }
 
-            lstView.ItemsSource = inventory;
-            string[] inventoryHeaders = new string[] {"Location", "Product", "Quantity" };
+            lstView.ItemsSource = inventory;                                 
+        }
+
+        private async void EditButton_Clicked(object sender, EventArgs e)
+        {
+
+            var item = lstView.SelectedItem as BrewentoryModel;            
+            action = "Edit";
+
+            if(item == null)
+            {
+                await DisplayAlert("Oops!", "Choose an item first.", "OK");
+            }
+            else
+            {
+                string selectedItem = item.Product.TrimStart();
+                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action));
+            }
+        }
+
+        private void DeleteButton_Clicked(object sender, EventArgs e)
+        {
+
+        }
+     
+        private void SearchButton_Clicked(object sender, EventArgs e)
+        {
+
+            currentInventory.Clear();
+            
+            if (searchEntry.Text != "")
+            {
+                for (int i = 0; i < inventoryArray.Count(); i++)
+                {
+                    string[] data = inventoryArray[i].Split(",");
+                    if (data[0] == searchEntry.Text || data[1] == searchEntry.Text || data[2] == searchEntry.Text)
+                    {
+                        currentInventory.Add(new BrewentoryModel { Location = data[0], Product = data[1], Quantity = data[2] });
+                    }
+                }
+                lstView.ItemsSource = null;
+                lstView.ItemsSource = currentInventory;
+            }
+
+            else
+            {                
+                lstView.ItemsSource = null;
+                lstView.ItemsSource = inventory;
+            }
            
+                      
+        }
+
+        private void LstView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
+            var index = e.SelectedItemIndex;
+            var item = e.SelectedItem as BrewentoryModel;
+            //item.EditIcon = "EditIcon.png";
+            //item.DeleteIcon = "DeleteIcon.png";
+            item.BtnVisibility = true;
+            //inventory.Insert(index, item);                      
+            //inventory.RemoveAt(index + 1);            
+            lstView.ItemsSource = inventory;
         }
         
+        private void EditMenuItem_Clicked(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void DeleteMenuItem_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void CreateButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushPopupAsync(new InventoryPopupView("", "Save"));
+        }
+
+
         // GET: Inventory
         /*public BrewentoryModel GetInventoryModel()
         {

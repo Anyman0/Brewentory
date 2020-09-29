@@ -1,0 +1,78 @@
+﻿@model IEnumerable<BrewentoryBackend.DataAccess.LiveView>
+
+@{
+    ViewBag.Title = "Live View";
+}
+
+<h2>Live View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Batch)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pallets)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiveStatus)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Batch)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pallets)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LiveStatus)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+    }
+</table>
+
+<div class="jumbotron" style="height:300px; background-color:orangered" name="statusJumbo">
+    <h3 style="font-family:'MS Gothic'; text-align:center">@WelcomeMessage("Michael")</h3>
+</div>
+
+@helper WelcomeMessage(string username)
+{
+if(username == "John")
+    {
+        username = "Michael";
+    }
+else if(username == "Michael")
+    {
+        username = "John";
+    }
+    <p>Welcome, @username.</p>
+}
+
+@helper GetStatus(bool status)
+{ 
+    
+}

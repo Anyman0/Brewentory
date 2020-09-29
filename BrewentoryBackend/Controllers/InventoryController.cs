@@ -8,13 +8,13 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
+using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 
 namespace BrewentoryBackend.Controllers
 {
     public class InventoryController : ApiController
     {
-             
-        [HttpGet]
+                     
         // Get api/inventory    FINALLY WORKS
         public string[] GetAll()
         {
@@ -34,28 +34,84 @@ namespace BrewentoryBackend.Controllers
            
         }
 
-
-        public BrewentoryModel GetModel(string inven)
+         // Get api/inventory?item=""
+        public BrewentoryModel GetModel(string item)
         {
             BrewentoryDBEntities1 entities = new BrewentoryDBEntities1();
 
             try
             {
-                string inv = inven;
-                Inventory inventory = (from iv in entities.Inventories where (iv.Location != null) select iv).FirstOrDefault();
-                BrewentoryModel model = new BrewentoryModel()
+                string chosenItem = item;
+                Inventory inventory = (from iv in entities.Inventories where (iv.Location != null) && (iv.Product == chosenItem) select iv).FirstOrDefault();
+
+                BrewentoryModel chosenItemModel = new BrewentoryModel()
                 {
                     Location = inventory.Location,
                     Product = inventory.Product,
                     Quantity = inventory.Quantity
                 };
 
-                return model;
+                return chosenItemModel;
             }
             finally
             {
                 entities.Dispose();
             }
+        }
+
+        [HttpPost]
+        public bool PostInventory(BrewentoryModel model)
+        {
+            BrewentoryDBEntities1 entities = new BrewentoryDBEntities1();
+
+            try
+            {
+
+                if(model.Operation == "Create")
+                {
+                    Inventory newEntry = new Inventory()
+                    {
+                        Location = model.Location,
+                        Product = model.Product,
+                        Quantity = model.Quantity
+                    };
+
+                    entities.Inventories.Add(newEntry);
+                }
+
+                else if(model.Operation == "Edit")
+                {
+                    Inventory existing = (from i in entities.Inventories where (i.LocationID == model.LocationID) select i).FirstOrDefault();
+                    if(existing != null)
+                    {
+                        existing.Location = model.Location;
+                        existing.Product = model.Product;
+                        existing.Quantity = model.Quantity;
+                    }                    
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                entities.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                entities.Dispose();
+            }
+
+            return true;
+        }
+
+        
+        public bool PostStatus(string value)
+        {
+            return true;
         }
 
     }

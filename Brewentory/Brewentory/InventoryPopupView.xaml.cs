@@ -1,0 +1,134 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Brewentory.Models;
+using Newtonsoft.Json;
+using Rg.Plugins.Popup.Extensions;
+using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+
+namespace Brewentory
+{
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class InventoryPopupView
+	{
+        private string productName;
+        private string actionName;
+        private int locationID;
+        
+		public InventoryPopupView (string selectedItem, string action)
+		{
+			InitializeComponent ();
+            productName = selectedItem;
+            selectedItem = null; // reset selectedItem
+            actionName = action;
+            
+            if(action == "Edit")
+            {
+                saveButton.Text = "Save Changes";
+            }
+            else if(action == "Delete")
+            {
+                saveButton.Text = "Delete";
+            }
+            else if(action == "Save")
+            {
+                saveButton.Text = "Save New";
+            }
+		}
+
+        private async void SaveButton_Clicked(object sender, EventArgs e)
+        {
+            BrewentoryModel data = new BrewentoryModel();
+            try
+            {
+                if(actionName == "Edit")
+                {
+                    data = new BrewentoryModel()
+                    {
+                        Operation = actionName,
+                        LocationID = locationID,
+                        Location = locationEntry.Text,
+                        Product = productEntry.Text,
+                        Quantity = quantityEntry.Text
+                    };
+                }
+                else if(actionName == "Save")
+                {
+                    data = new BrewentoryModel()
+                    {
+                        Operation = "Create",
+                        Location = locationEntry.Text,
+                        Product = productEntry.Text,
+                        Quantity = quantityEntry.Text
+                    };                        
+                }
+
+               
+
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri("http://brewentory.azurewebsites.net");
+                string input = JsonConvert.SerializeObject(data);
+                StringContent content = new StringContent(input, Encoding.UTF8, "application/json");
+                var debugText = content.ReadAsStringAsync();
+
+                HttpResponseMessage message = await client.PostAsync("/api/inventory", content);
+                string reply = await message.Content.ReadAsStringAsync();
+                bool success = JsonConvert.DeserializeObject<bool>(reply);
+
+                if(success)
+                {
+                    await DisplayAlert("Saved!", "Your changes have been saved!", "Close");
+                    await Navigation.PopPopupAsync();
+                }
+                else
+                {
+                    await DisplayAlert("Failed!", "Could not save changes..", "Close"); 
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = ex.GetType().Name + ": " + ex.Message;
+                productEntry.Text = errorMsg;
+                //await DisplayAlert("Oops..", "Couldn't get data from DB", "OK");
+            }
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            try
+            {
+                if(actionName != "Save")
+                {
+                    HttpClient client = new HttpClient();
+                    client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
+                    string json = await client.GetStringAsync("api/inventory?item=" + productName);
+                    BrewentoryModel chosenInventoryModel = JsonConvert.DeserializeObject<BrewentoryModel>(json);
+                    invHeadline.Text = actionName;
+                    locationEntry.Text = chosenInventoryModel.Location;
+                    productEntry.Text = chosenInventoryModel.Product;
+                    quantityEntry.Text = chosenInventoryModel.Quantity;
+                    locationID = chosenInventoryModel.LocationID;
+                }
+                else
+                {
+
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.GetType().Name + ": " + ex.Message;
+                productEntry.Text = errorMessage;
+            }
+        }
+    }
+}

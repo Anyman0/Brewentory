@@ -13,22 +13,31 @@ namespace Brewentory
 		{
 			InitializeComponent();
 
+
+            // Toolbar items
             var GoToInventory = new ToolbarItem()
             {
                 Text = "Inventory",
             };
             GoToInventory.Clicked += GoToInventory_Clicked;
             ToolbarItems.Add(GoToInventory);
+
+            var GoToTimeSheet = new ToolbarItem()
+            {
+                Text = "Shifts"
+            };
+            GoToTimeSheet.Clicked += GoToTimeSheet_Clicked;
+            ToolbarItems.Add(GoToTimeSheet);
 		}
 
-        private void GoToInventory_Clicked(object sender, EventArgs e)
+        private async void GoToTimeSheet_Clicked(object sender, EventArgs e)
         {
-            //Navigation.PushAsync(new InventoryPage());
+            await Navigation.PushAsync(new ShiftList());
         }
 
-        private async void InventoryButton_Clicked(object sender, EventArgs e)
+        private async void GoToInventory_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InventoryList());
-        }
+             await Navigation.PushAsync(new InventoryList());
+        }        
     }
 }

@@ -12,10 +12,16 @@ namespace BrewentoryBackend.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class LiveTable
+    public partial class CompletedWork
     {
-        public int ProductID { get; set; }
+        public int CompletedWorkID { get; set; }
+        public System.DateTime Date { get; set; }
         public string Product { get; set; }
         public string Batch { get; set; }
+        public Nullable<int> Pallets { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public string StartShift { get; set; }
+        public string EndShift { get; set; }
+        public Nullable<int> Loss { get; set; }
     }
 }

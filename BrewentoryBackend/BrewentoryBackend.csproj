@@ -58,6 +58,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Rg.Plugins.Popup, Version=2.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rg.Plugins.Popup.2.0.0.4\lib\netstandard2.0\Rg.Plugins.Popup.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -182,7 +185,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InventoryViewController.cs" />
+    <Compile Include="Controllers\LiveViewController.cs" />
     <Compile Include="Controllers\NoteViewController.cs" />
+    <Compile Include="Controllers\ShiftListController.cs" />
+    <Compile Include="Controllers\ShiftsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TimesheetViewController.cs" />
     <Compile Include="DataAccess\BrewentoryDBModel.Context.cs">
@@ -200,10 +206,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BrewentoryDBModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\CompletedWork.cs">
+      <DependentUpon>BrewentoryDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\Inventory.cs">
       <DependentUpon>BrewentoryDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess\LiveTable.cs">
+    <Compile Include="DataAccess\LiveView.cs">
       <DependentUpon>BrewentoryDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\Notetable.cs">
@@ -297,6 +306,9 @@
     <Content Include="Views\TimesheetView\EditShift.cshtml" />
     <Content Include="Views\TimesheetView\DeleteShift.cshtml" />
     <Content Include="Views\TimesheetView\AutoEdit.cshtml" />
+    <Content Include="Views\LiveView\Create.cshtml" />
+    <Content Include="Views\LiveView\Index.cshtml" />
+    <Content Include="Views\LiveView\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using System.Dynamic;
+using Brewentory.Models;
 
 namespace BrewentoryBackend.Controllers
 {
@@ -19,8 +20,30 @@ namespace BrewentoryBackend.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var timesheets = db.Timesheets;
+            var timesheets = db.Timesheets;           
+            BrewentoryModel model = new BrewentoryModel();
+            foreach(var w in timesheets)
+            {
+                model.WeekNo = w.Week;
+                break;
+            }            
+            PostWeek(model);            
             return View(timesheets.ToList());
+        }
+
+        [HttpPost]
+        public bool PostWeek(BrewentoryModel model) 
+        {
+            if(model.WeekNo >= 0 )
+            {
+                foreach(var t in db.Timesheets)
+                {
+                    t.Week = model.WeekNo;
+                }
+
+                db.SaveChanges();
+            } 
+            return true;
         }
 
         // GET: TimesheetView/Details/5
@@ -75,7 +98,7 @@ namespace BrewentoryBackend.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Timesheet timesheet = db.Timesheets.Find(id);
+            Timesheet timesheet = db.Timesheets.Find(id);           
             if (timesheet == null)
             {
                 return HttpNotFound();
@@ -99,7 +122,7 @@ namespace BrewentoryBackend.Controllers
             }*/            
             if (ModelState.IsValid)
             {
-                db.Entry(timesheet).State = EntityState.Modified;
+                db.Entry(timesheet).State = EntityState.Modified;                
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -205,7 +228,7 @@ namespace BrewentoryBackend.Controllers
                         break;
                     }
                 }
-            }
+            }            
             
             // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ABSOLUTELY USELESS CHECK ATM :DD Fast workaround to make it work. Fix later
             if (ModelState.IsValid || !ModelState.IsValid) 

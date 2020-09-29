@@ -1,26 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Brewentory.InventoryList" BackgroundColor="AntiqueWhite">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"            
+             x:Class="Brewentory.InventoryList">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Location               Product             Quantity" HorizontalOptions="Start" />
-            <ListView x:Name="inventoryList"></ListView>
+            <Label Text="Inventory List" FontAttributes="Bold" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" Margin="0, 10, 0, 0" TextColor="Black"></Label>
+            <Button x:Name="CreateButton" Text="Create New" FontAttributes="Italic" HorizontalOptions="End" Scale="0.7" Clicked="CreateButton_Clicked"></Button> 
+            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                <Entry Placeholder="Search..." x:Name="searchEntry" HorizontalOptions="FillAndExpand" />
+                <Button Text="Go" x:Name="searchButton" HorizontalOptions="End" Scale="0.5" Clicked="SearchButton_Clicked" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Location" Margin="0, 0, 0, 0" FontSize="15" FontAttributes="Bold"></Label>
+                <Label Text="Product"  Margin="20, 0, 0, 0" FontSize="15" FontAttributes="Bold"></Label>
+                <Label Text="Quantity" Margin="22, 0, 0, 0" FontSize="15" FontAttributes="Bold" ></Label>
+            </StackLayout>
+            <ListView x:Name="lstView" Margin="0, 10, 0, 0"  ItemSelected="LstView_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Label Text = "{Binding Location}" FontAttributes="Bold"/>
+                                <Label Grid.Column="1" Text = "{Binding Product}" />
+                                <Label Grid.Column="2" Text = "{Binding Quantity}"  />
+                                <!--<ImageButton x:Name="EditButton" Grid.Column="3" Source="{Binding EditIcon}" HorizontalOptions="End"  Scale="0.5" Clicked="EditButton_Clicked"></ImageButton>
+                                <ImageButton x:Name="DeleteButton" Grid.Column="4" Source="{Binding DeleteIcon}" HorizontalOptions="Start"  Scale="0.5" Clicked="DeleteButton_Clicked"></ImageButton>-->
+                                <Button x:Name="EditButton" IsVisible="{Binding BtnVisibility}" Text="Edit" Grid.Column="3" HorizontalOptions="End" Scale="0.5" Clicked="EditButton_Clicked"></Button>
+                                <Button x:Name="DeleteButton" IsVisible="{Binding BtnVisibility}" Text="Delete" Grid.Column="4" HorizontalOptions="Start" Scale="0.5" Clicked="DeleteButton_Clicked"></Button>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
+
     </ContentPage.Content>
-    
-    <ListView  x:Name="lstView" HasUnevenRows="True" HorizontalOptions="FillAndExpand">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal" BackgroundColor="SaddleBrown" >
-                        <Label Text = "{Binding Location}" AbsoluteLayout.LayoutBounds="0.25, 0.25, 200, 40" />
-                        <Label Text = "{Binding Product}" AbsoluteLayout.LayoutBounds="50, 0.25, 200, 40" />
-                        <Label Text = "{Binding Quantity}" AbsoluteLayout.LayoutBounds="100, 0.25, 200, 40" />                        
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
-    
-</ContentPage> 
+</ContentPage>
