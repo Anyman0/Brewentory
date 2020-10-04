@@ -18,6 +18,13 @@ namespace BrewentoryBackend.Controllers
         public ActionResult Index()
         {
             var liveView = db.LiveViews;
+            foreach(var s in liveView)
+            {
+                if(s.LiveStatus)
+                {
+                    // Get the jumbotron color here. 
+                }
+            }
             return View(liveView.ToList());
         }
 
@@ -26,6 +33,9 @@ namespace BrewentoryBackend.Controllers
         {
             return View();
         }
+
+
+        // We dont use create, but its here just in case we need it at some point in the future. 
 
         // GET: LiveView/Create
         public ActionResult Create()
