@@ -46,6 +46,7 @@
             <td hidden id="hiddenStatus">@item.LiveStatus</td> <!--THIS IS JUST A HIDDEN FIELD TO COMPARE LIVESTATUS AND CHANGE JUMBOTRON COLOR BASED ON THE RESULTS.-->
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
+                @Html.ActionLink("Add", "AddToCompleted")
             </td>
         </tr>
     }

@@ -182,6 +182,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CompletedWorkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InventoryViewController.cs" />
@@ -309,6 +310,11 @@
     <Content Include="Views\LiveView\Create.cshtml" />
     <Content Include="Views\LiveView\Index.cshtml" />
     <Content Include="Views\LiveView\Edit.cshtml" />
+    <Content Include="Views\LiveView\AddToCompleted.cshtml" />
+    <Content Include="Views\CompletedWork\Index.cshtml" />
+    <Content Include="Views\CompletedWork\Edit.cshtml" />
+    <Content Include="Views\CompletedWork\Delete.cshtml" />
+    <Content Include="Views\CompletedWork\DeleteAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

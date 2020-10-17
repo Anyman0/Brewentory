@@ -1,0 +1,74 @@
+﻿@model IEnumerable<BrewentoryBackend.DataAccess.CompletedWork>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Completed Work</h2>
+<p>
+    @Html.ActionLink("Delete All", "DeleteAll", new { id = 5 })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Batch)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pallets)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartShift)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndShift)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Loss)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>     
+            @{ string formattedTime = item.Date.ToShortDateString(); }
+            @Html.DisplayFor(modelItem => formattedTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Batch)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pallets)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartShift)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndShift)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Loss)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CompletedWorkID }) |            
+            @Html.ActionLink("Delete", "Delete", new { id=item.CompletedWorkID }) |                
+        </td>
+    </tr>
+}
+
+</table>

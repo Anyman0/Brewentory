@@ -17,14 +17,7 @@ namespace BrewentoryBackend.Controllers
         // GET: LiveView
         public ActionResult Index()
         {
-            var liveView = db.LiveViews;
-            foreach(var s in liveView)
-            {
-                if(s.LiveStatus)
-                {
-                    // Get the jumbotron color here. 
-                }
-            }
+            var liveView = db.LiveViews;            
             return View(liveView.ToList());
         }
 
@@ -118,6 +111,38 @@ namespace BrewentoryBackend.Controllers
             {
                 return View();
             }
+        }
+
+
+        // GET: Get the work to add as completed
+        [HttpGet]
+        public ActionResult AddToCompleted()
+        {           
+            var completedWork = db.CompletedWorks;
+            LiveView liveView = db.LiveViews.Find(1);
+            CompletedWork newEntry = new CompletedWork()
+            {
+                Date = DateTime.Now,                
+                Product = liveView.Product,
+                Batch = liveView.Batch,
+                Pallets = liveView.Pallets,
+                Quantity = liveView.Quantity
+            };           
+            return View(newEntry);
+        }
+
+        // POST: Add work to completed
+        [HttpPost]
+        public ActionResult AddToCompleted(CompletedWork completed)
+        {
+            if(ModelState.IsValid)
+            {
+                db.CompletedWorks.Add(completed);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(completed);
         }
 
         protected override void Dispose(bool disposing)

@@ -1,0 +1,89 @@
+﻿@model BrewentoryBackend.DataAccess.CompletedWork
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CompletedWork</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>            
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @{ string formattedDate = Model.Date.ToShortDateString(); }
+            @Html.DisplayFor(model => formattedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Batch)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Batch)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pallets)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pallets)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartShift)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartShift)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndShift)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndShift)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Loss)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Loss)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
