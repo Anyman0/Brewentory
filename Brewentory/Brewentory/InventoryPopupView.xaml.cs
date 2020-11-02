@@ -21,10 +21,11 @@ namespace Brewentory
         private string actionName;
         private int locationID;
         
-		public InventoryPopupView (string selectedItem, string action)
+		public InventoryPopupView (string selectedItem, string action, int locID)
 		{
 			InitializeComponent ();
             productName = selectedItem;
+            locationID = locID;
             selectedItem = null; // reset selectedItem
             actionName = action;
             
@@ -38,7 +39,7 @@ namespace Brewentory
             }
             else if(action == "Save")
             {
-                saveButton.Text = "Save New";
+                saveButton.Text = "Save New";                
             }
 		}
 
@@ -67,6 +68,17 @@ namespace Brewentory
                         Product = productEntry.Text,
                         Quantity = quantityEntry.Text
                     };                        
+                }
+                else if(actionName == "Delete")
+                {
+                    data = new BrewentoryModel()
+                    {
+                        Operation = "Delete",
+                        LocationID = locationID, 
+                        Location = locationEntry.Text,
+                        Product = productEntry.Text,
+                        Quantity = quantityEntry.Text
+                    };
                 }
 
                
@@ -110,7 +122,7 @@ namespace Brewentory
                 {
                     HttpClient client = new HttpClient();
                     client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
-                    string json = await client.GetStringAsync("api/inventory?item=" + productName);
+                    string json = await client.GetStringAsync("api/inventory?locationID=" + locationID);
                     BrewentoryModel chosenInventoryModel = JsonConvert.DeserializeObject<BrewentoryModel>(json);
                     invHeadline.Text = actionName;
                     locationEntry.Text = chosenInventoryModel.Location;

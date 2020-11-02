@@ -23,6 +23,7 @@ namespace Brewentory
         private ObservableCollection<BrewentoryModel> currentInventory { get; set; }       
         private string[] inventoryArray;
         private string action;
+        private int locationID;
 
         public InventoryList ()
 		{
@@ -38,16 +39,18 @@ namespace Brewentory
             string json = await client.GetStringAsync("api/inventory/");
             inventoryArray = JsonConvert.DeserializeObject<string[]>(json);
                         
-            inventory = new ObservableCollection<BrewentoryModel>();
+            inventory = new ObservableCollection<BrewentoryModel>();           
             currentInventory = new ObservableCollection<BrewentoryModel>();
 
             for (int i = 0; i < inventoryArray.Count(); i++)
             {
+               
                 string[] data = inventoryArray[i].Split(",");               
-                inventory.Add(new BrewentoryModel { Location = data[0], Product = data[1], Quantity = data[2]});
+                inventory.Add(new BrewentoryModel { LocationID = int.Parse(data[0]), Location = data[1], Product = data[2], Quantity = data[3]});
             }
 
-            lstView.ItemsSource = inventory;                                 
+            lstView.ItemsSource = inventory;
+            
         }
 
         private async void EditButton_Clicked(object sender, EventArgs e)
@@ -55,6 +58,7 @@ namespace Brewentory
 
             var item = lstView.SelectedItem as BrewentoryModel;            
             action = "Edit";
+            locationID = item.LocationID;
 
             if(item == null)
             {
@@ -63,13 +67,25 @@ namespace Brewentory
             else
             {
                 string selectedItem = item.Product.TrimStart();
-                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action));
+                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID));
             }
         }
 
-        private void DeleteButton_Clicked(object sender, EventArgs e)
+        private async void DeleteButton_Clicked(object sender, EventArgs e)
         {
+            var item = lstView.SelectedItem as BrewentoryModel;
+            action = "Delete";
+            locationID = item.LocationID;
 
+            if(item == null)
+            {
+                await DisplayAlert("Oops!", "Choose an item first", "OK");
+            }
+            else
+            {
+                string selectedItem = item.Product.TrimStart();
+                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID));
+            }
         }
      
         private void SearchButton_Clicked(object sender, EventArgs e)
@@ -82,9 +98,9 @@ namespace Brewentory
                 for (int i = 0; i < inventoryArray.Count(); i++)
                 {
                     string[] data = inventoryArray[i].Split(",");
-                    if (data[0] == searchEntry.Text || data[1] == searchEntry.Text || data[2] == searchEntry.Text)
+                    if (data[1].TrimStart().Contains(searchEntry.Text) || data[2].TrimStart().Contains(searchEntry.Text) || data[3].TrimStart().Contains(searchEntry.Text))
                     {
-                        currentInventory.Add(new BrewentoryModel { Location = data[0], Product = data[1], Quantity = data[2] });
+                        currentInventory.Add(new BrewentoryModel { Location = data[1], Product = data[2], Quantity = data[3] });
                     }
                 }
                 lstView.ItemsSource = null;
@@ -107,11 +123,13 @@ namespace Brewentory
             var item = e.SelectedItem as BrewentoryModel;
             //item.EditIcon = "EditIcon.png";
             //item.DeleteIcon = "DeleteIcon.png";
-            item.BtnVisibility = true;
+            item.BtnVisibility = true;           
             //inventory.Insert(index, item);                      
             //inventory.RemoveAt(index + 1);            
             lstView.ItemsSource = inventory;
         }
+
+        
         
         private void EditMenuItem_Clicked(object sender, EventArgs e)
         {
@@ -125,9 +143,8 @@ namespace Brewentory
 
         private async void CreateButton_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushPopupAsync(new InventoryPopupView("", "Save"));
+            await Navigation.PushPopupAsync(new InventoryPopupView("", "Save", 0));
         }
-
 
         // GET: Inventory
         /*public BrewentoryModel GetInventoryModel()
