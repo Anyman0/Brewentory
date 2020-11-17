@@ -6,15 +6,18 @@
 
 <h2>Worksheet</h2>
 
-<p>    
-    @Html.ActionLink("Create New", "Create")    
-    @Html.ActionLink("Modify shifts", "ShiftsPartial")    
+<p style="text-align:end">
+    @Html.ActionLink("Create New", "Create")
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    @Html.ActionLink("Modify shifts", "ShiftsPartial")
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    @Html.ActionLink("Add / Remove Week", "NewWeek")
 </p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Week)   
-            <input type="number" style="width: 45px" min="1" max="53" onkeydown="return false" name="weekInput" />
+            <!--<input type="number" style="width: 45px" min="1" max="53" onkeydown="return false" name="weekInput" />-->
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -62,7 +65,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EmployeeID }) |
+            <!--@Html.ActionLink("Details", "Details", new { id=item.EmployeeID }) | Details commented out since we prolly dont need em. --> 
             @Html.ActionLink("Delete", "Delete", new { id=item.EmployeeID }) |
             @Html.ActionLink("AutoEdit", "AutoEdit", new { id = item.EmployeeID })             
         </td>

@@ -16,6 +16,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)EditShiftsView.xaml.cs">
+      <DependentUpon>EditShiftsView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)InventoryList.xaml.cs">
       <DependentUpon>InventoryList.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -28,8 +32,12 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\BrewentoryModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NewShiftPopupView.xaml.cs">
-      <DependentUpon>NewShiftPopupView.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)ModifyShiftsPopupView.xaml.cs">
+      <DependentUpon>ModifyShiftsPopupView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)TimesheetPopupView.xaml.cs">
+      <DependentUpon>TimesheetPopupView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ShiftList.xaml.cs">
@@ -59,7 +67,19 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)NewShiftPopupView.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)TimesheetPopupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)EditShiftsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)ModifyShiftsPopupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

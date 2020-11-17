@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 
@@ -44,6 +45,7 @@ namespace Brewentory.Models
         // Shared 
         public string Operation { get; set; }
         public int WeekNo { get; set; }
+        public bool VisibleOrNot { get; set; } 
 
     }
 }

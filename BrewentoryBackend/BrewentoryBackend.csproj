@@ -315,6 +315,7 @@
     <Content Include="Views\CompletedWork\Edit.cshtml" />
     <Content Include="Views\CompletedWork\Delete.cshtml" />
     <Content Include="Views\CompletedWork\DeleteAll.cshtml" />
+    <Content Include="Views\TimesheetView\NewWeek.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

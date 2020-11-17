@@ -27,9 +27,11 @@ namespace Brewentory
 
         public InventoryList ()
 		{
+            
 			InitializeComponent ();                                        
-		}      
+		}
 
+       
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -52,40 +54,41 @@ namespace Brewentory
             lstView.ItemsSource = inventory;
             
         }
-
+        
         private async void EditButton_Clicked(object sender, EventArgs e)
         {
-
-            var item = lstView.SelectedItem as BrewentoryModel;            
-            action = "Edit";
-            locationID = item.LocationID;
-
-            if(item == null)
+            try
+            {
+                var item = lstView.SelectedItem as BrewentoryModel;
+                action = "Edit";
+                locationID = item.LocationID;               
+                string selectedItem = item.Product.TrimStart();
+                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID));                 
+            }
+            catch
             {
                 await DisplayAlert("Oops!", "Choose an item first.", "OK");
             }
-            else
-            {
-                string selectedItem = item.Product.TrimStart();
-                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID));
-            }
+            
+            
         }
 
         private async void DeleteButton_Clicked(object sender, EventArgs e)
         {
-            var item = lstView.SelectedItem as BrewentoryModel;
-            action = "Delete";
-            locationID = item.LocationID;
 
-            if(item == null)
+            try
             {
-                await DisplayAlert("Oops!", "Choose an item first", "OK");
-            }
-            else
-            {
+                var item = lstView.SelectedItem as BrewentoryModel;
+                action = "Delete";
+                locationID = item.LocationID;
                 string selectedItem = item.Product.TrimStart();
                 await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID));
             }
+            catch
+            {
+                await DisplayAlert("Oops!", "Choose an item first", "OK");
+            }
+            
         }
      
         private void SearchButton_Clicked(object sender, EventArgs e)

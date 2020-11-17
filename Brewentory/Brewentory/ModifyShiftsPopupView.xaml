@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             x:Class="Brewentory.NewShiftPopupView">
+             x:Class="Brewentory.ModifyShiftsPopupView">
 
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation
@@ -24,12 +24,10 @@
         HorizontalOptions="Center"
         VerticalOptions="Center">
 
-        <Label Text="Add New Shift" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center"/>
-        <Entry x:Name="WeekEntry" Placeholder="Week"></Entry>
-        <Entry x:Name="NameEntry" Placeholder="Name"></Entry>
-        <Picker x:Name="ShiftPicker" Title="Shift"></Picker>
-        <Button x:Name="SaveShiftButton" Text="Save Shift" BackgroundColor="OrangeRed" BorderColor="Black" BorderWidth="3" TextColor="Black"  FontAttributes="Bold" Clicked="SaveShiftButton_Clicked" ></Button>
-
+        <Label x:Name="Header" Text="Modify Shift" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center"/>
+        <Entry x:Name="ShiftNameEntry" Placeholder="Shift Name"></Entry>
+        <Entry x:Name="ShiftTimeEntry" Placeholder="Shift Times"></Entry>
+        <Button x:Name="SaveShiftButton" Text="Save" BackgroundColor="OrangeRed" BorderColor="Black" BorderWidth="3" TextColor="Black"  FontAttributes="Bold" Clicked="SaveShiftButton_Clicked" ></Button>
     </StackLayout>
 
 </pages:PopupPage>

@@ -34,7 +34,7 @@ namespace BrewentoryBackend.Controllers
            
         }
 
-         // Get api/inventory?item=""
+         // Get api/inventory?locationID=""
         public BrewentoryModel GetModel(/*string item*/int locationID)
         {
             BrewentoryDBEntities1 entities = new BrewentoryDBEntities1();

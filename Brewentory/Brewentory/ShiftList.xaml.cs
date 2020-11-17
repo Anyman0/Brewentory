@@ -18,23 +18,47 @@ namespace Brewentory
 	public partial class ShiftList : ContentPage
 	{
         private string[] shiftArray;
-        private ObservableCollection<BrewentoryModel> shiftCollection { get; set; }
+        private string action;
+        private int employeeID;
+        
+        
+        public ObservableCollection<BrewentoryModel> shiftCollection { get; set; }
 		public ShiftList ()
 		{
 			InitializeComponent ();
+            shiftCollection = new ObservableCollection<BrewentoryModel>();
+            shiftCollection.CollectionChanged += ShiftCollection_CollectionChanged;
 
-            // Toolbar items
-            var GoToNewShiftPopup = new ToolbarItem()
+            // Toolbar items added here
+            var CreateNewEmployee = new ToolbarItem()
             {
-                Text = "New employee",
+                Text = "Create New"
             };
-            GoToNewShiftPopup.Clicked += GoToNewShiftPopup_Clicked;
-            ToolbarItems.Add(GoToNewShiftPopup);
+            CreateNewEmployee.Clicked += CreateNewEmployee_Clicked;
+            ToolbarItems.Add(CreateNewEmployee);
+
+            var ModifyShifts = new ToolbarItem()
+            {
+                Text = "Modify shifts"
+            };
+            ModifyShifts.Clicked += ModifyShifts_Clicked;
+            ToolbarItems.Add(ModifyShifts);
         }
 
-        private async void GoToNewShiftPopup_Clicked(object sender, EventArgs e)
+        private async void CreateNewEmployee_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushPopupAsync(new NewShiftPopupView());
+            await Navigation.PushPopupAsync(new TimesheetPopupView("", "Save", 0, shiftCollection));
+        }
+
+        private async void ModifyShifts_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new EditShiftsView());
+        }
+
+        private void ShiftCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            // Getting here?? 
+            
         }
 
         protected override async void OnAppearing()
@@ -42,24 +66,78 @@ namespace Brewentory
 
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
-            string json = await client.GetStringAsync("/api/Shifts");
+            string json = await client.GetStringAsync("/api/shiftlist");
             shiftArray = JsonConvert.DeserializeObject<string[]>(json);
-            shiftCollection = new ObservableCollection<BrewentoryModel>();
+            var sortedArray = shiftArray.OrderBy(x => { var week = x.Split(","); return int.Parse(week[1]); });
+            string[] sortedShiftArray = sortedArray.ToArray<string>();            
+            shiftCollection.Clear(); // Clear the list of shifts before populating it again
 
-            for (int i = 0; i < shiftArray.Count(); i++)
+            for (int i = 0; i < sortedShiftArray.Count(); i++)
             {
-                string[] data = shiftArray[i].Split(",");
-                shiftCollection.Add(new BrewentoryModel { Week = int.Parse(data[0]), Name = data[1], Monday = data[2], Tuesday = data[3], Wednesday = data[4], Thursday = data[5], Friday = data[6] });
+                string[] data = sortedShiftArray[i].Split(",");
+                shiftCollection.Add(new BrewentoryModel { EmployeeID = int.Parse(data[0]), Week = int.Parse(data[1]), Name = data[2], Monday = data[3], Tuesday = data[4], Wednesday = data[5], Thursday = data[6], Friday = data[7]});            
             }
-
+            
             shiftsList.ItemsSource = shiftCollection;
-
+            
             base.OnAppearing();
         }
-
+            
         private void ShiftsList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
+            
+        }
 
+        
+        private async void EditButton_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                var item = shiftsList.SelectedItem as BrewentoryModel;
+                action = "Edit";
+                employeeID = item.EmployeeID;
+                string selectedItem = item.Name.TrimStart();
+                await Navigation.PushPopupAsync(new TimesheetPopupView(selectedItem, action, employeeID, shiftCollection));                
+            }
+            catch
+            {
+                await DisplayAlert("Ooops!", "Choose an item first.", "OK");
+            }            
+        }
+
+        private async void DeleteButton_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var item = shiftsList.SelectedItem as BrewentoryModel;
+                action = "Delete";
+                employeeID = item.EmployeeID;
+                string selectedItem = item.Name.TrimStart();
+                await Navigation.PushPopupAsync(new TimesheetPopupView(selectedItem, action, employeeID, shiftCollection));
+            }
+            catch
+            {
+                await DisplayAlert("Oops!", "Choose an item to delete first!", "OK");
+            }
+            
+        }
+
+        private async void CreateButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushPopupAsync(new TimesheetPopupView("", "Save", 0, shiftCollection));
+        }
+
+        private async void ShiftsList_BindingContextChanged(object sender, EventArgs e)
+        {
+            // See if we get here. Ever.
+            await DisplayAlert("Ey!", "Binding context has changed!", "Ok");
+        }
+
+        private async void EditWeekButton_Clicked(object sender, EventArgs e)
+        {
+            action = "EditWeek";
+            await Navigation.PushPopupAsync(new TimesheetPopupView("", action, 0, shiftCollection));
         }
     }
 }

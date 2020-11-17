@@ -15,6 +15,8 @@ namespace BrewentoryBackend.Controllers
     {
         private BrewentoryDBEntities1 db = new BrewentoryDBEntities1();
         private string shiftName;
+        private int prevWeek;
+        private bool removeWeek = false;
         // GET: TimesheetView
 
         [HttpGet]
@@ -27,10 +29,11 @@ namespace BrewentoryBackend.Controllers
                 model.WeekNo = w.Week;
                 break;
             }            
-            PostWeek(model);            
+            //PostWeek(model);            
             return View(timesheets.ToList());
         }
 
+        // Below method changes week to be the same for all
         [HttpPost]
         public bool PostWeek(BrewentoryModel model) 
         {
@@ -362,6 +365,75 @@ namespace BrewentoryBackend.Controllers
             db.Shifts.Remove(shift);
             db.SaveChanges();
             return RedirectToAction("ShiftsPartial");
+        }
+
+
+        // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<----- Below dublicates employees to a new week. ----->>>>>>>>>>>>>>>>>>>>>>>>>>
+        // GET: TimesheetView/NewWeek
+        public ActionResult NewWeek()
+        {
+            return View();
+        }
+
+        // POST: TimesheetView/NewWeek
+        [HttpPost]
+        public ActionResult NewWeek(Timesheet sheet)
+        {
+            var timesheet = db.Timesheets;
+            prevWeek = 0;
+            // Below makes sure we only add each employee once and determines if we are removing an existing week or adding a new one. 
+            foreach(var w in timesheet)
+            {
+                if(prevWeek == 0)
+                prevWeek = w.Week;
+                if (w.Week == sheet.Week)
+                {
+                    removeWeek = true;
+                    prevWeek = sheet.Week;
+                    break;
+                }
+                else removeWeek = false;
+                
+            }
+
+            if(ModelState.IsValid || !ModelState.IsValid)
+            {
+                
+                if(!removeWeek)
+                {
+                    foreach (var employee in timesheet)
+                    {
+                        if (employee.Week == prevWeek)
+                        {
+                            Timesheet newEntry = new Timesheet()
+                            {
+                                Week = sheet.Week,
+                                Name = employee.Name,
+                                Monday = employee.Monday,
+                                Tuesday = employee.Tuesday,
+                                Wednesday = employee.Wednesday,
+                                Thursday = employee.Thursday,
+                                Friday = employee.Friday,
+                            };
+                            db.Timesheets.Add(newEntry);
+                        }
+                    }
+                }
+                else if(removeWeek)
+                {
+                    foreach(var employee in timesheet)
+                    {
+                        if(employee.Week == sheet.Week)
+                        {                            
+                            db.Timesheets.Remove(employee);
+                        }
+                    }
+                }
+                        
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(sheet);
         }
 
     }
