@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using System.Dynamic;
 using Brewentory.Models;
+using Newtonsoft.Json;
 
 namespace BrewentoryBackend.Controllers
 {
@@ -17,19 +18,21 @@ namespace BrewentoryBackend.Controllers
         private string shiftName;
         private int prevWeek;
         private bool removeWeek = false;
+        
         // GET: TimesheetView
 
         [HttpGet]
         public ActionResult Index()
         {
-            var timesheets = db.Timesheets;           
-            BrewentoryModel model = new BrewentoryModel();
+            var timesheets = db.Timesheets.OrderBy(x => x.Week);
+                                                           
+            /*BrewentoryModel model = new BrewentoryModel();
             foreach(var w in timesheets)
             {
                 model.WeekNo = w.Week;
                 break;
             }            
-            //PostWeek(model);            
+            //PostWeek(model);   */         
             return View(timesheets.ToList());
         }
 
