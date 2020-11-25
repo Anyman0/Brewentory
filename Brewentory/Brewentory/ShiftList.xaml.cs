@@ -96,6 +96,11 @@ namespace Brewentory
                 
                 var item = shiftsList.SelectedItem as BrewentoryModel;
                 action = "Edit";
+                if(item.EmployeeID == 0)
+                {
+                    await GetIdAfterChange(item.Week, item.Name);
+                }
+                else
                 employeeID = item.EmployeeID;
                 string selectedItem = item.Name.TrimStart();
                 await Navigation.PushPopupAsync(new TimesheetPopupView(selectedItem, action, employeeID, shiftCollection));                
@@ -138,6 +143,23 @@ namespace Brewentory
         {
             action = "EditWeek";
             await Navigation.PushPopupAsync(new TimesheetPopupView("", action, 0, shiftCollection));
+        }
+
+        // Gets the newly created id because page is not reloaded
+        private async Task GetIdAfterChange(int week, string name)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
+            string json = await client.GetStringAsync("/api/shiftlist");
+            var all = JsonConvert.DeserializeObject<string[]>(json);
+            for(int i = 0; i < all.Count(); i++)
+            {
+                string[] data = all[i].Split(",");
+                if(int.Parse(data[1].TrimStart()) == week && data[2].TrimStart() == name)
+                {
+                    employeeID = int.Parse(data[0]);
+                }
+            }            
         }
     }
 }

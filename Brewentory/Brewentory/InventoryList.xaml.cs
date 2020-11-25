@@ -63,7 +63,7 @@ namespace Brewentory
                 action = "Edit";
                 locationID = item.LocationID;               
                 string selectedItem = item.Product.TrimStart();
-                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID));                 
+                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID, inventory));                 
             }
             catch
             {
@@ -82,7 +82,7 @@ namespace Brewentory
                 action = "Delete";
                 locationID = item.LocationID;
                 string selectedItem = item.Product.TrimStart();
-                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID));
+                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID, inventory));
             }
             catch
             {
@@ -101,7 +101,7 @@ namespace Brewentory
                 for (int i = 0; i < inventoryArray.Count(); i++)
                 {
                     string[] data = inventoryArray[i].Split(",");
-                    if (data[1].TrimStart().Contains(searchEntry.Text) || data[2].TrimStart().Contains(searchEntry.Text) || data[3].TrimStart().Contains(searchEntry.Text))
+                    if (data[1].TrimStart().Contains(searchEntry.Text.ToUpper()) || data[2].TrimStart().Contains(searchEntry.Text.ToUpper()) || data[3].TrimStart().Contains(searchEntry.Text.ToUpper()))
                     {
                         currentInventory.Add(new BrewentoryModel { Location = data[1], Product = data[2], Quantity = data[3] });
                     }
@@ -146,7 +146,7 @@ namespace Brewentory
 
         private async void CreateButton_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushPopupAsync(new InventoryPopupView("", "Save", 0));
+            await Navigation.PushPopupAsync(new InventoryPopupView("", "Save", 0, inventory));
         }
 
         // GET: Inventory

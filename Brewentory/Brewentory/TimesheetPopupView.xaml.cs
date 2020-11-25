@@ -49,7 +49,7 @@ namespace Brewentory
                     data = new BrewentoryModel()
                     {
                         Operation = "Create",
-                        EmployeeID = employeeId,
+                        //EmployeeID = employeeId,
                         Week = int.Parse(WeekEntry.Text),
                         Name = NameEntry.Text,                       
                         ShiftName = ShiftPicker.SelectedItem?.ToString(),

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -20,11 +21,13 @@ namespace Brewentory
         private string productName;
         private string actionName;
         private int locationID;
+        private ObservableCollection<BrewentoryModel> inventoryModel;
         
-		public InventoryPopupView (string selectedItem, string action, int locID)
+		public InventoryPopupView (string selectedItem, string action, int locID, ObservableCollection<BrewentoryModel> inventory)
 		{
 			InitializeComponent ();
             productName = selectedItem;
+            inventoryModel = inventory;
             locationID = locID;
             selectedItem = null; // reset selectedItem
             actionName = action;
@@ -54,9 +57,9 @@ namespace Brewentory
                     {
                         Operation = actionName,
                         LocationID = locationID,
-                        Location = locationEntry.Text,
-                        Product = productEntry.Text,
-                        Quantity = quantityEntry.Text
+                        Location = locationEntry.Text.ToUpper(),
+                        Product = productEntry.Text.ToUpper(),
+                        Quantity = quantityEntry.Text.ToUpper()
                     };
                 }
                 else if(actionName == "Save")
@@ -64,10 +67,11 @@ namespace Brewentory
                     data = new BrewentoryModel()
                     {
                         Operation = "Create",
-                        Location = locationEntry.Text,
-                        Product = productEntry.Text,
-                        Quantity = quantityEntry.Text
-                    };                        
+                        Location = locationEntry.Text.ToUpper(),
+                        Product = productEntry.Text.ToUpper(),
+                        Quantity = quantityEntry.Text.ToUpper()
+                    };
+                    inventoryModel.Add(data);
                 }
                 else if(actionName == "Delete")
                 {
@@ -81,7 +85,29 @@ namespace Brewentory
                     };
                 }
 
-               
+                // <<<<<< Below method works but may not be the best solution. Return to this? >>>>>>>
+                if (actionName == "Edit" || actionName == "Delete")
+                {
+                    for (int i = 0; i < inventoryModel.Count; i++)
+                    {
+                        if (inventoryModel[i].LocationID == locationID)
+                        {
+                            if (actionName == "Edit")
+                            {
+                                inventoryModel.Remove(inventoryModel[i]);
+                                inventoryModel.Insert(i, data);
+                                break;
+                            }
+                            else if (actionName == "Delete")
+                            {
+                                inventoryModel.Remove(inventoryModel[i]);
+                                break;
+                            }
+
+                        }
+                    }
+                }
+
 
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("http://brewentory.azurewebsites.net");
