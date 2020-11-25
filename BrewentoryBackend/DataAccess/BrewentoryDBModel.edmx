@@ -54,7 +54,6 @@
           <Property Name="ShiftID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ShiftName" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="ShiftTimes" Type="nvarchar" MaxLength="30" />
-          <Property Name="EmployeeID" Type="int" />
         </EntityType>
         <EntityType Name="Timesheets">
           <Key>
@@ -69,18 +68,6 @@
           <Property Name="Thursday" Type="nvarchar" MaxLength="30" />
           <Property Name="Friday" Type="nvarchar" MaxLength="30" />
         </EntityType>
-        <Association Name="FK__Shifts__Employee__656C112C">
-          <End Role="Timesheets" Type="Self.Timesheets" Multiplicity="0..1" />
-          <End Role="Shifts" Type="Self.Shifts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Timesheets">
-              <PropertyRef Name="EmployeeID" />
-            </Principal>
-            <Dependent Role="Shifts">
-              <PropertyRef Name="EmployeeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="BrewentoryDBModelStoreContainer">
           <EntitySet Name="CompletedWork" EntityType="Self.CompletedWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
@@ -88,10 +75,6 @@
           <EntitySet Name="Notetable" EntityType="Self.Notetable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Timesheets" EntityType="Self.Timesheets" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Shifts__Employee__656C112C" Association="Self.FK__Shifts__Employee__656C112C">
-            <End Role="Timesheets" EntitySet="Timesheets" />
-            <End Role="Shifts" EntitySet="Shifts" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -111,10 +94,6 @@
           <EntitySet Name="Timesheets" EntityType="BrewentoryDBModel.Timesheet" />
           <EntitySet Name="Notetables" EntityType="BrewentoryDBModel.Notetable" />
           <EntitySet Name="Shifts" EntityType="BrewentoryDBModel.Shift" />
-          <AssociationSet Name="FK__Shifts__Employee__656C112C" Association="BrewentoryDBModel.FK__Shifts__Employee__656C112C">
-            <End Role="Timesheet" EntitySet="Timesheets" />
-            <End Role="Shift" EntitySet="Shifts" />
-          </AssociationSet>
           <EntitySet Name="CompletedWorks" EntityType="BrewentoryDBModel.CompletedWork" />
           <EntitySet Name="LiveViews" EntityType="BrewentoryDBModel.LiveView" />
         </EntityContainer>
@@ -130,7 +109,6 @@
           <Property Name="Wednesday" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Thursday" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Friday" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Shifts" Relationship="BrewentoryDBModel.FK__Shifts__Employee__656C112C" FromRole="Timesheet" ToRole="Shift" />
         </EntityType>
         <EntityType Name="Notetable">
           <Key>
@@ -147,21 +125,7 @@
           <Property Name="ShiftID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ShiftName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ShiftTimes" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeID" Type="Int32" />
-          <NavigationProperty Name="Timesheet" Relationship="BrewentoryDBModel.FK__Shifts__Employee__656C112C" FromRole="Shift" ToRole="Timesheet" />
         </EntityType>
-        <Association Name="FK__Shifts__Employee__656C112C">
-          <End Type="BrewentoryDBModel.Timesheet" Role="Timesheet" Multiplicity="0..1" />
-          <End Type="BrewentoryDBModel.Shift" Role="Shift" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Timesheet">
-              <PropertyRef Name="EmployeeID" />
-            </Principal>
-            <Dependent Role="Shift">
-              <PropertyRef Name="EmployeeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CompletedWork">
           <Key>
             <PropertyRef Name="CompletedWorkID" />
@@ -229,7 +193,6 @@
           <EntitySetMapping Name="Shifts">
             <EntityTypeMapping TypeName="BrewentoryDBModel.Shift">
               <MappingFragment StoreEntitySet="Shifts">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="ShiftTimes" ColumnName="ShiftTimes" />
                 <ScalarProperty Name="ShiftName" ColumnName="ShiftName" />
                 <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />

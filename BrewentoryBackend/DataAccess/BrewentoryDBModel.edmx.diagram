@@ -9,8 +9,7 @@
         <EntityTypeShape EntityType="BrewentoryDBModel.Timesheet" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="BrewentoryDBModel.Notetable" Width="1.5" PointX="4.125" PointY="4.125" />
         <EntityTypeShape EntityType="BrewentoryDBModel.Shift" Width="1.5" PointX="5.625" PointY="1.125" />
-        <AssociationConnector Association="BrewentoryDBModel.FK__Shifts__Employee__656C112C" />
-        <EntityTypeShape EntityType="BrewentoryDBModel.CompletedWork" Width="1.5" PointX="8.125" PointY="1.5" />
+        <EntityTypeShape EntityType="BrewentoryDBModel.CompletedWork" Width="1.5" PointX="9" PointY="1.125" />
         <EntityTypeShape EntityType="BrewentoryDBModel.LiveView" Width="1.5" PointX="6.375" PointY="3.375" />
       </Diagram>
     </edmx:Diagrams>

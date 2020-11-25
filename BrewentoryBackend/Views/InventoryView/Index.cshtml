@@ -9,6 +9,22 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@{
+    var entry = "";    
+    if (IsPost)
+    {
+
+        // Retrieve the text that the user entered.
+        entry = Request["searchEntry"];        
+    }
+}
+<form action="" method="post">
+    <p>
+        <input name="searchEntry" placeholder="Search..." />
+        <input type="submit" value="Search" class="btn-default" />
+        
+    </p>
+</form>
 <table class="table">
     <tr>
         <th>
@@ -23,23 +39,60 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.LocationID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.LocationID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.LocationID })
-        </td>
-    </tr>
-}
+
+    @foreach (var item in Model)
+    {
+        if (entry == "")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.LocationID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.LocationID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.LocationID })
+                </td>
+            </tr>
+        }
+        else if (entry != "")
+        {
+            try
+            {
+                var text = entry;
+                if (item.Location.Contains(text) || item.Product.Contains(text) || item.Quantity.Contains(text))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.LocationID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.LocationID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.LocationID })
+                        </td>
+                    </tr>
+                }
+            }
+            catch
+            {
+
+            }
+        }
+    }
+
+
 
 </table>

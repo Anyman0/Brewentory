@@ -14,12 +14,6 @@ namespace BrewentoryBackend.DataAccess
     
     public partial class Timesheet
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Timesheet()
-        {
-            this.Shifts = new HashSet<Shift>();
-        }
-    
         public int EmployeeID { get; set; }
         public int Week { get; set; }
         public string Name { get; set; }
@@ -28,8 +22,5 @@ namespace BrewentoryBackend.DataAccess
         public string Wednesday { get; set; }
         public string Thursday { get; set; }
         public string Friday { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Shift> Shifts { get; set; }
     }
 }

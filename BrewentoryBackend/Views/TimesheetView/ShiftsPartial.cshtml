@@ -24,10 +24,7 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ShiftTimes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Timesheet.Name)
-        </td>
+        </td>        
         <td>
             @Html.ActionLink("Edit", "EditShift", new { id=item.ShiftID }) |            
             @Html.ActionLink("Delete", "DeleteShift", new { id=item.ShiftID })

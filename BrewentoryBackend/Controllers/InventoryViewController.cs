@@ -23,6 +23,14 @@ namespace BrewentoryBackend.Controllers
             return View(inventory.ToList());
         }
 
+        // Search function
+        public ActionResult Index(string searchEntry)
+        {
+            var inventory = db.Inventories;            
+            var list = inventory.Where(i => i.Location.Contains(searchEntry) || i.Product.Contains(searchEntry) || i.Quantity.Contains(searchEntry));            
+            return View(list);
+        }
+
         // GET: InventoryView/Details/5
         public ActionResult Details(int? id)
         {

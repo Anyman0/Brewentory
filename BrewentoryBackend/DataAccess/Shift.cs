@@ -17,8 +17,5 @@ namespace BrewentoryBackend.DataAccess
         public int ShiftID { get; set; }
         public string ShiftName { get; set; }
         public string ShiftTimes { get; set; }
-        public Nullable<int> EmployeeID { get; set; }
-    
-        public virtual Timesheet Timesheet { get; set; }
     }
 }
