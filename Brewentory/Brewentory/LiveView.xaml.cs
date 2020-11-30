@@ -15,7 +15,7 @@ namespace Brewentory
 		public LiveView ()
 		{
 			InitializeComponent ();
-
+            
             // Toolbar items
             var goToInventory = new ToolbarItem()
             {
@@ -32,14 +32,20 @@ namespace Brewentory
             ToolbarItems.Add(goToTimesheet);
 		}
 
+        
         private async void GoToTimesheet_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ShiftList());
+            await Navigation.PushAsync(new ShiftList());           
         }
 
         private async void GoToInventory_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new InventoryList());
+        }
+
+        private void LiveList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -56,9 +56,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Icons\" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)InventoryPopupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -93,5 +90,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Icons\" />
   </ItemGroup>
 </Project>
