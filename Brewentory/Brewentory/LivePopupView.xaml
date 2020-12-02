@@ -19,12 +19,18 @@
     </pages:PopupPage.Animation>
 
     <StackLayout Margin="12" Padding="24" BackgroundColor="Bisque" HorizontalOptions="Center" VerticalOptions="Center">
-        <Label FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center" Text="Edit Live View"></Label>
+        <Label x:Name="LiveLabel" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center" Text="Edit Live View"></Label>
         <Entry x:Name="productEntry" Placeholder="Product Name"></Entry>
         <Entry x:Name="batchEntry" Placeholder="Batch Name"></Entry>
         <Entry x:Name="palletsEntry" Placeholder="Pallet amount"></Entry>
         <Entry x:Name="quantityEntry" Placeholder="Quantity"></Entry>
-        <Switch x:Name="statusSwitch" ></Switch>
+        <Entry x:Name="startShiftEntry" Placeholder="StartShift"></Entry>
+        <Entry x:Name="endShiftEntry" Placeholder="EndShift"></Entry>
+        <Entry x:Name="lossEntry" Placeholder="Loss"></Entry>
+        <StackLayout Orientation="Horizontal">
+            <Label x:Name="switchLabel" Text="Status" FontAttributes="Bold" TextColor="Black"></Label>
+            <Switch x:Name="statusSwitch" ></Switch>
+        </StackLayout>
         <Button x:Name="saveButton" Text="Save" BackgroundColor="ForestGreen" BorderColor="Black" BorderWidth="3" TextColor="Black" FontAttributes="Bold" Clicked="SaveButton_Clicked"></Button>
     </StackLayout>
 

@@ -74,6 +74,21 @@ namespace BrewentoryBackend.Controllers
                     }
                     else return false;
                 }
+                else if(model.Operation == "AddToCW")
+                {
+                    CompletedWork newEntry = new CompletedWork()
+                    {
+                        Date = DateTime.Now,
+                        Product = model.cwProduct,
+                        Batch = model.cwBatch,
+                        Pallets = model.cwPallets,
+                        Quantity = model.cwQuantity,
+                        StartShift = model.StartShift,
+                        EndShift = model.EndShift,
+                        Loss = model.Loss
+                    };
+                    entities.CompletedWorks.Add(newEntry);
+                }
                 entities.SaveChanges();
             }
             catch

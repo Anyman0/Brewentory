@@ -38,8 +38,19 @@ namespace Brewentory
             };
             goToTimesheet.Clicked += GoToTimesheet_Clicked;
             ToolbarItems.Add(goToTimesheet);
+
+            var goToCw = new ToolbarItem()
+            {
+                Text = "Completed Works"
+            };
+            goToCw.Clicked += GoToCw_Clicked;
+            ToolbarItems.Add(goToCw);
 		}
 
+        private async void GoToCw_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CompletedWorkView());
+        }
 
         protected override async void OnAppearing()
         {
@@ -55,7 +66,8 @@ namespace Brewentory
                 productID = int.Parse(data[0]);
                 liveData.Add(new BrewentoryModel { ProductID = int.Parse(data[0]), ProductLive = data[1], Batch = data[2], Pallets = int.Parse(data[3]), QuantityLive = int.Parse(data[4]), LiveStatus = bool.Parse(data[5]) });
             }
-
+            if (liveData[0].LiveStatus) stackLayout.BackgroundColor = Color.Green;
+            else if (!liveData[0].LiveStatus) stackLayout.BackgroundColor = Color.Red;
             liveList.ItemsSource = liveData;           
         }
 
@@ -77,7 +89,15 @@ namespace Brewentory
 
         private async void AddToCompletedButton_Clicked(object sender, EventArgs e)
         {
-                        
+            try
+            {
+                var action = "AddToCW";
+                await Navigation.PushPopupAsync(new LivePopupView(action, productID, liveData, stackLayout));
+            }
+            catch
+            {
+                await DisplayAlert("Oops", "Something went wrong", "Close");
+            }
         }
 
         private async void EditButton_Clicked(object sender, EventArgs e)
@@ -85,7 +105,7 @@ namespace Brewentory
             try
             {
                 var action = "Edit";
-                await Navigation.PushPopupAsync(new LivePopupView(action, productID, liveData));
+                await Navigation.PushPopupAsync(new LivePopupView(action, productID, liveData, stackLayout));
             }
             catch
             {

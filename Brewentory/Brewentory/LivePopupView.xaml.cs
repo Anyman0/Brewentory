@@ -19,13 +19,15 @@ namespace Brewentory
 	{
         private int prodID;
         private string actionName;
+        private StackLayout stackLayout;
         private ObservableCollection<BrewentoryModel> collection;
-		public LivePopupView (string action, int productID, ObservableCollection<BrewentoryModel> model)
+		public LivePopupView (string action, int productID, ObservableCollection<BrewentoryModel> model, StackLayout stack)
 		{
 			InitializeComponent ();
             prodID = productID;
             actionName = action;
             collection = model;
+            stackLayout = stack;
 		}
 
         private async void SaveButton_Clicked(object sender, EventArgs e)
@@ -33,19 +35,53 @@ namespace Brewentory
             BrewentoryModel data = new BrewentoryModel();
             try
             {
-                data = new BrewentoryModel()
+                if(actionName == "Edit")
                 {
-                    Operation = actionName,
-                    ProductID = prodID,
-                    ProductLive = productEntry.Text.ToUpper(),
-                    Batch = batchEntry.Text.ToUpper(),
-                    Pallets = int.Parse(palletsEntry.Text),
-                    QuantityLive = int.Parse(quantityEntry.Text),
-                    LiveStatus = statusSwitch.IsToggled
-                };
+                    data = new BrewentoryModel()
+                    {
+                        Operation = actionName,
+                        ProductID = prodID,
+                        ProductLive = productEntry.Text.ToUpper(),
+                        Batch = batchEntry.Text.ToUpper(),
+                        Pallets = int.Parse(palletsEntry.Text),
+                        QuantityLive = int.Parse(quantityEntry.Text),
+                        LiveStatus = statusSwitch.IsToggled
+                    };
 
+                    for (int i = 0; i < collection.Count; i++)
+                    {
+                        if (collection[i].ProductID == prodID)
+                        {
+                            if (actionName == "Edit")
+                            {
+                                collection.Remove(collection[i]);
+                                collection.Insert(i, data);
+                                break;
+                            }
+                        }
+                    }
+                    if (data.LiveStatus) stackLayout.BackgroundColor = Color.Green;
+                    else if (!data.LiveStatus) stackLayout.BackgroundColor = Color.Red;
+                }
+
+                else if(actionName == "AddToCW")
+                {
+                    data = new BrewentoryModel()
+                    {
+                        Operation = actionName,                       
+                        cwProduct = productEntry.Text.ToUpper(),
+                        cwBatch = batchEntry.Text.ToUpper(),
+                        cwPallets = int.Parse(palletsEntry.Text),
+                        cwQuantity = int.Parse(quantityEntry.Text),
+                        StartShift = startShiftEntry.Text,
+                        EndShift = endShiftEntry.Text,
+                        Loss = int.Parse(lossEntry.Text)
+                    };
+                }
+                
+                
                 // <<<<<< Below method works but may not be the best solution. Return to this? >>>>>>>
-                if (actionName == "Edit")
+                /*if (actionName == "Edit")
                 {
                     for (int i = 0; i < collection.Count; i++)
                     {
@@ -59,7 +95,7 @@ namespace Brewentory
                             }                            
                         }
                     }
-                }
+                }*/
 
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
@@ -92,6 +128,23 @@ namespace Brewentory
 
             try
             {
+
+                if (actionName == "Edit")
+                {
+                    startShiftEntry.IsVisible = false;
+                    endShiftEntry.IsVisible = false;
+                    lossEntry.IsVisible = false;
+                    saveButton.Text = "Edit";
+                }
+                else if(actionName == "AddToCW")
+                {
+                    LiveLabel.Text = "Add to Completed";
+                    saveButton.Text = "Add to Completed";
+                    statusSwitch.IsVisible = false;
+                    switchLabel.IsVisible = false;
+                }
+                    
+
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
                 string json = await client.GetStringAsync("api/live?productID=" + prodID);
@@ -100,7 +153,7 @@ namespace Brewentory
                 batchEntry.Text = chosenModel.Batch;
                 palletsEntry.Text = chosenModel.Pallets.ToString();
                 quantityEntry.Text = chosenModel.QuantityLive.ToString();
-                statusSwitch.IsToggled = chosenModel.LiveStatus;                
+                statusSwitch.IsToggled = chosenModel.LiveStatus;                                                                        
             }
             catch (Exception ex)
             {

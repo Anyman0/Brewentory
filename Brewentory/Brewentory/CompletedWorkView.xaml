@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Brewentory.CompletedWorkView">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="Gray">
+            <Label Text="Completed Works" FontAttributes="Bold" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" Margin="0, 10, 0, 0" TextColor="Black"></Label>
+            <Grid Margin="0,10,0,0" BackgroundColor="BurlyWood" HeightRequest="70" >
+                <Label Grid.Column="0" Text="Date" VerticalOptions="Center"></Label>
+                <Label Grid.Column="1" Text="Prod" VerticalOptions="Center"></Label>
+                <Label Grid.Column="2" Text="Batch" VerticalOptions="Center" ></Label>
+                <Label Grid.Column="3" Text="Pallets" VerticalOptions="Center"></Label>
+                <Label Grid.Column="4" Text="Qty" VerticalOptions="Center"></Label>
+                <Label Grid.Column="5" Text="Start" VerticalOptions="Center"></Label>
+                <Label Grid.Column="6" Text="End" VerticalOptions="Center"></Label>
+                <Label Grid.Column="7" Text="Loss" VerticalOptions="Center"></Label>
+            </Grid>
+            <ListView x:Name="completedWorkList" Margin="0,10,0,0" BackgroundColor="Gray" ItemSelected="CompletedWorkList_ItemSelected" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Label Grid.Column="0" Text="{Binding Date}" VerticalOptions="Center" ></Label>
+                                <Label Grid.Column="1" Text="{Binding cwProduct}" VerticalOptions="Center" ></Label>
+                                <Label Grid.Column="2" Text="{Binding cwBatch}" VerticalOptions="Center"  ></Label>
+                                <Label Grid.Column="3" Text="{Binding cwPallets}" VerticalOptions="Center"></Label>
+                                <Label Grid.Column="4" Text="{Binding cwQuantity}" VerticalOptions="Center"></Label>
+                                <Label Grid.Column="5" Text="{Binding StartShift}" VerticalOptions="Center" ></Label>
+                                <Label Grid.Column="6" Text="{Binding EndShift}" VerticalOptions="Center"  ></Label>
+                                <Label Grid.Column="7" Text="{Binding Loss}" VerticalOptions="Center"></Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

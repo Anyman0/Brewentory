@@ -22,6 +22,16 @@ namespace Brewentory.Models
         public int? QuantityLive { get; set; }
         public bool LiveStatus { get; set; } 
 
+        // CompletedWork fields
+        public int completedWorkID { get; set; }
+        public string Date { get; set; }
+        public string cwProduct { get; set; }
+        public string cwBatch { get; set; }
+        public int? cwPallets { get; set; }
+        public int? cwQuantity { get; set; }
+        public string StartShift { get; set; }
+        public string EndShift { get; set; }
+        public int Loss { get; set; }
 
         // Note fields
         public int HeadlineID { get; set; }
