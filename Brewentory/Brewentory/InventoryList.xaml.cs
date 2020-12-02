@@ -103,7 +103,7 @@ namespace Brewentory
                     string[] data = inventoryArray[i].Split(",");
                     if (data[1].TrimStart().Contains(searchEntry.Text.ToUpper()) || data[2].TrimStart().Contains(searchEntry.Text.ToUpper()) || data[3].TrimStart().Contains(searchEntry.Text.ToUpper()))
                     {
-                        currentInventory.Add(new BrewentoryModel { Location = data[1], Product = data[2], Quantity = data[3] });
+                        currentInventory.Add(new BrewentoryModel { LocationID = int.Parse(data[0]), Location = data[1], Product = data[2], Quantity = data[3] });
                     }
                 }
                 lstView.ItemsSource = null;
