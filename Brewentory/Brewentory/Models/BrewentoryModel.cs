@@ -14,6 +14,15 @@ namespace Brewentory.Models
         public string Product { get; set; }
         public string Quantity { get; set; }        
 
+        // LiveView fields
+        public int ProductID { get; set; }
+        public string ProductLive { get; set; }
+        public string Batch { get; set; }
+        public int? Pallets { get; set; }
+        public int? QuantityLive { get; set; }
+        public bool LiveStatus { get; set; } 
+
+
         // Note fields
         public int HeadlineID { get; set; }
         public string Headline { get; set; }

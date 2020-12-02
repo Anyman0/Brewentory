@@ -1,6 +1,11 @@
-﻿using System;
+﻿using Brewentory.Models;
+using Newtonsoft.Json;
+using Rg.Plugins.Popup.Extensions;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,10 +17,13 @@ namespace Brewentory
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LiveView : ContentPage
 	{
+        private string[] liveArray;
+        private int productID;
+        
+        private ObservableCollection<BrewentoryModel> liveData;
 		public LiveView ()
 		{
-			InitializeComponent ();
-            
+			InitializeComponent ();            
             // Toolbar items
             var goToInventory = new ToolbarItem()
             {
@@ -32,7 +40,26 @@ namespace Brewentory
             ToolbarItems.Add(goToTimesheet);
 		}
 
-        
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
+            string json = await client.GetStringAsync("api/live");
+            liveArray = JsonConvert.DeserializeObject<string[]>(json);
+            liveData = new ObservableCollection<BrewentoryModel>();
+            for(int i = 0; i < liveArray.Count(); i++)
+            {
+                string[] data = liveArray[i].Split(",");
+                productID = int.Parse(data[0]);
+                liveData.Add(new BrewentoryModel { ProductID = int.Parse(data[0]), ProductLive = data[1], Batch = data[2], Pallets = int.Parse(data[3]), QuantityLive = int.Parse(data[4]), LiveStatus = bool.Parse(data[5]) });
+            }
+
+            liveList.ItemsSource = liveData;           
+        }
+
+
         private async void GoToTimesheet_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new ShiftList());           
@@ -47,5 +74,25 @@ namespace Brewentory
         {
 
         }
+
+        private async void AddToCompletedButton_Clicked(object sender, EventArgs e)
+        {
+                        
+        }
+
+        private async void EditButton_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var action = "Edit";
+                await Navigation.PushPopupAsync(new LivePopupView(action, productID, liveData));
+            }
+            catch
+            {
+                await DisplayAlert("Oops", "Something went wrong", "Close");
+            }
+        }
+
+        
     }
 }

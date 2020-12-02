@@ -122,27 +122,18 @@ namespace Brewentory
         private void LstView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
 
-            var index = e.SelectedItemIndex;
+            /*var index = e.SelectedItemIndex;
             var item = e.SelectedItem as BrewentoryModel;
             //item.EditIcon = "EditIcon.png";
             //item.DeleteIcon = "DeleteIcon.png";
             item.BtnVisibility = true;           
             //inventory.Insert(index, item);                      
             //inventory.RemoveAt(index + 1);            
-            lstView.ItemsSource = inventory;
+            lstView.ItemsSource = inventory;*/
         }
 
         
-        
-        private void EditMenuItem_Clicked(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void DeleteMenuItem_Clicked(object sender, EventArgs e)
-        {
-
-        }
+               
 
         private async void CreateButton_Clicked(object sender, EventArgs e)
         {

@@ -186,6 +186,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InventoryViewController.cs" />
+    <Compile Include="Controllers\LiveController.cs" />
     <Compile Include="Controllers\LiveViewController.cs" />
     <Compile Include="Controllers\NoteViewController.cs" />
     <Compile Include="Controllers\ShiftListController.cs" />
@@ -320,6 +321,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Views\Live\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
