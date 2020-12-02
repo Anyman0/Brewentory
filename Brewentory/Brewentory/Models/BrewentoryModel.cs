@@ -31,7 +31,7 @@ namespace Brewentory.Models
         public int? cwQuantity { get; set; }
         public string StartShift { get; set; }
         public string EndShift { get; set; }
-        public int Loss { get; set; }
+        public int? Loss { get; set; }
 
         // Note fields
         public int HeadlineID { get; set; }
