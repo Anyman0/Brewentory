@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Brewentory.NoteView">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="Gray">
+            <Label Text="Notes" FontAttributes="Bold" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" Margin="0, 10, 0, 0" TextColor="Black"></Label>
+            <StackLayout Orientation="Horizontal">
+                <Button x:Name="EditButton" Text="Edit" FontAttributes="Bold" FontSize="20" HorizontalOptions="Start" Scale="0.7" Clicked="EditButton_Clicked"></Button>
+                <Button x:Name="DeleteButton" Text="Delete" FontAttributes="Bold" FontSize="20" Scale="0.7" Clicked="DeleteButton_Clicked"></Button>
+                <Button x:Name="CreateButton" Text="Create New" FontAttributes="Bold" FontSize="20" HorizontalOptions="End" Scale="0.7" Clicked="CreateButton_Clicked"></Button>
+            </StackLayout>
+            <Grid Margin="0,10,0,0" BackgroundColor="BurlyWood" HeightRequest="50" >
+                <Label Text="Headline" FontSize="15" FontAttributes="Bold"></Label>
+                <Label Text="Note"  Grid.Column="1" FontSize="15" FontAttributes="Bold"></Label>
+            </Grid>
+            <ListView x:Name="noteList" Margin="0, 0, 0, 0"  ItemSelected="NoteList_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Label Text = "{Binding Headline}" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text = "{Binding Note}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

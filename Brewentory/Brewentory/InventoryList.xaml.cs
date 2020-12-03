@@ -24,6 +24,7 @@ namespace Brewentory
         private string[] inventoryArray;
         private string action;
         private int locationID;
+        private Color color;
 
         public InventoryList ()
 		{
@@ -63,7 +64,7 @@ namespace Brewentory
                 action = "Edit";
                 locationID = item.LocationID;               
                 string selectedItem = item.Product.TrimStart();
-                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID, inventory));                 
+                await Navigation.PushPopupAsync(new InventoryPopupView(CreateButton, action, locationID, inventory));                 
             }
             catch
             {
@@ -82,7 +83,7 @@ namespace Brewentory
                 action = "Delete";
                 locationID = item.LocationID;
                 string selectedItem = item.Product.TrimStart();
-                await Navigation.PushPopupAsync(new InventoryPopupView(selectedItem, action, locationID, inventory));
+                await Navigation.PushPopupAsync(new InventoryPopupView(CreateButton, action, locationID, inventory));
             }
             catch
             {
@@ -137,13 +138,37 @@ namespace Brewentory
 
         private async void CreateButton_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushPopupAsync(new InventoryPopupView("", "Save", 0, inventory));
+            if(CreateButton.Text == "Create New")
+            {
+                color = CreateButton.BackgroundColor;
+                await Navigation.PushPopupAsync(new InventoryPopupView(CreateButton, "Save", 0, inventory));
+            }
+            else if(CreateButton.Text == "Refresh")
+            {
+                RefreshView();
+            }
         }
 
-        // GET: Inventory
-        /*public BrewentoryModel GetInventoryModel()
+        private async void RefreshView()
         {
-            
-        }*/
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
+            string json = await client.GetStringAsync("api/inventory/");
+            inventoryArray = JsonConvert.DeserializeObject<string[]>(json);
+
+            inventory = new ObservableCollection<BrewentoryModel>();            
+
+            for (int i = 0; i < inventoryArray.Count(); i++)
+            {
+
+                string[] data = inventoryArray[i].Split(",");
+                inventory.Add(new BrewentoryModel { LocationID = int.Parse(data[0]), Location = data[1], Product = data[2], Quantity = data[3] });
+            }
+
+            lstView.ItemsSource = inventory;
+            CreateButton.Text = "Create New";
+            CreateButton.BackgroundColor = color;           
+        }
+        
     }
 }

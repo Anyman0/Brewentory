@@ -17,19 +17,18 @@ namespace Brewentory
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InventoryPopupView
-	{
-        private string productName;
+	{        
         private string actionName;
         private int locationID;
+        private Button refreshBtn;
         private ObservableCollection<BrewentoryModel> inventoryModel;
         
-		public InventoryPopupView (string selectedItem, string action, int locID, ObservableCollection<BrewentoryModel> inventory)
+		public InventoryPopupView (Button btn, string action, int locID, ObservableCollection<BrewentoryModel> inventory)
 		{
-			InitializeComponent ();
-            productName = selectedItem;
+			InitializeComponent ();            
             inventoryModel = inventory;
             locationID = locID;
-            selectedItem = null; // reset selectedItem
+            refreshBtn = btn;
             actionName = action;
             
             if(action == "Edit")
@@ -46,6 +45,17 @@ namespace Brewentory
             }
 		}
 
+        private async void Flash()
+        {
+            for(int i = 0; i < 10; i++)
+            {
+                await Task.Delay(200);
+                await refreshBtn.FadeTo(0, 250);
+                await Task.Delay(200);
+                await refreshBtn.FadeTo(1, 250);
+                if (refreshBtn.IsPressed) break;
+            }            
+        }
         private async void SaveButton_Clicked(object sender, EventArgs e)
         {
             BrewentoryModel data = new BrewentoryModel();
@@ -71,7 +81,10 @@ namespace Brewentory
                         Product = productEntry.Text.ToUpper(),
                         Quantity = quantityEntry.Text.ToUpper()
                     };
-                    inventoryModel.Add(data);
+                    refreshBtn.Text = "Refresh";
+                    refreshBtn.BackgroundColor = Color.DarkSeaGreen;
+                    Flash();
+                    //inventoryModel.Add(data);
                 }
                 else if(actionName == "Delete")
                 {

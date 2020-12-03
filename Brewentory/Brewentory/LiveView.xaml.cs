@@ -41,11 +41,23 @@ namespace Brewentory
 
             var goToCw = new ToolbarItem()
             {
-                Text = "Completed Works"
+                Text = "Completed"
             };
-            goToCw.Clicked += GoToCw_Clicked;
+            goToCw.Clicked += GoToCw_Clicked;            
             ToolbarItems.Add(goToCw);
+
+            var goToNotes = new ToolbarItem()
+            {
+                Text = "Notes"
+            };
+            goToNotes.Clicked += GoToNotes_Clicked;
+            ToolbarItems.Add(goToNotes);            
 		}
+
+        private async void GoToNotes_Clicked(object sender, EventArgs e)
+        {
+           await Navigation.PushAsync(new NoteView());
+        }
 
         private async void GoToCw_Clicked(object sender, EventArgs e)
         {
