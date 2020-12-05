@@ -26,7 +26,7 @@ namespace Brewentory
 			InitializeComponent ();
             actionName = action;
             headlineId = id;
-            collection = model;
+            collection = model;            
             refreshButton = btn;
 		}
 
@@ -56,6 +56,7 @@ namespace Brewentory
                     };
                     refreshButton.Text = "Refresh";
                     refreshButton.BackgroundColor = Color.DarkSeaGreen;
+                    Flash();
                     //collection.Add(data);
                 }
 
@@ -133,14 +134,25 @@ namespace Brewentory
                     BrewentoryModel chosenModel = JsonConvert.DeserializeObject<BrewentoryModel>(json);
                     headlineEntry.Text = chosenModel.Headline;
                     noteEntry.Text = chosenModel.Note;
-                }
-
+                }                
 
             }
             catch(Exception ex)
             {
                 string msg = ex.GetType().Name + ": " + ex.Message;
                 noteEntry.Text = msg;
+            }
+        }
+
+        private async void Flash()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                await Task.Delay(200);
+                await refreshButton.FadeTo(0, 250);
+                await Task.Delay(200);
+                await refreshButton.FadeTo(1, 250);
+                if (refreshButton.Text == "Create New") break;                
             }
         }
 

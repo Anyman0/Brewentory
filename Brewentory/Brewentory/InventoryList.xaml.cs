@@ -83,6 +83,7 @@ namespace Brewentory
                 action = "Delete";
                 locationID = item.LocationID;
                 string selectedItem = item.Product.TrimStart();
+                lstView.SelectedItem = null;
                 await Navigation.PushPopupAsync(new InventoryPopupView(CreateButton, action, locationID, inventory));
             }
             catch
@@ -130,7 +131,7 @@ namespace Brewentory
             item.BtnVisibility = true;           
             //inventory.Insert(index, item);                      
             //inventory.RemoveAt(index + 1);            
-            lstView.ItemsSource = inventory;*/
+            lstView.ItemsSource = inventory;*/            
         }
 
         

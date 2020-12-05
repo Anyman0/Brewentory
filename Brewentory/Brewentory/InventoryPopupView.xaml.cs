@@ -53,7 +53,7 @@ namespace Brewentory
                 await refreshBtn.FadeTo(0, 250);
                 await Task.Delay(200);
                 await refreshBtn.FadeTo(1, 250);
-                if (refreshBtn.IsPressed) break;
+                if (refreshBtn.Text == "Create New") break;
             }            
         }
         private async void SaveButton_Clicked(object sender, EventArgs e)

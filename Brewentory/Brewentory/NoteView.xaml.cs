@@ -76,6 +76,7 @@ namespace Brewentory
                 var item = noteList.SelectedItem as BrewentoryModel;
                 actionName = "Delete";
                 headId = item.HeadlineID;
+                noteList.SelectedItem = null;
                 await Navigation.PushPopupAsync(new NotePopupView(actionName, headId, noteCollection, CreateButton));
             }
             catch
@@ -96,7 +97,7 @@ namespace Brewentory
                 RefreshView();
             }           
         }
-
+        
         private async void RefreshView()
         {
             HttpClient client = new HttpClient();
@@ -115,7 +116,7 @@ namespace Brewentory
             noteList.ItemsSource = noteCollection;
 
             CreateButton.Text = "Create New";
-            CreateButton.BackgroundColor = color;
+            CreateButton.BackgroundColor = color;            
         }
     }
 }
