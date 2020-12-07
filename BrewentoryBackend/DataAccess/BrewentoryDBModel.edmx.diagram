@@ -11,6 +11,7 @@
         <EntityTypeShape EntityType="BrewentoryDBModel.Shift" Width="1.5" PointX="5.625" PointY="1.125" />
         <EntityTypeShape EntityType="BrewentoryDBModel.CompletedWork" Width="1.5" PointX="9" PointY="1.125" />
         <EntityTypeShape EntityType="BrewentoryDBModel.LiveView" Width="1.5" PointX="6.375" PointY="3.375" />
+        <EntityTypeShape EntityType="BrewentoryDBModel.Employee" Width="1.5" PointX="0.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

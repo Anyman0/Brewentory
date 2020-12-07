@@ -1,0 +1,95 @@
+﻿@model BrewentoryBackend.DataAccess.Employee
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Employee</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.EmployeeID)
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!--<div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>-->
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<h2>Change Password</h2>
+<fieldset>
+    <legend>Password Change</legend>
+
+    @using (Ajax.BeginForm("PasswordChange", "Employees",
+                    new AjaxOptions { UpdateTargetId = "passChanges" }))
+    {
+        <div id="passChanges"></div>     
+        <div class="form-horizontal">
+            @Html.Hidden(name: "existingID", value: ViewData.Model.EmployeeID.ToString())
+            <div class="form-group">
+                @Html.Label("Old Password", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Password("oldPass")
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("New Password", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Password("newPass")
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Confirm Password", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Password("confirmednewPass")
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">                    
+                    <input type="submit" value="Save" class="btn btn-default" onclick="SubmitForm()" />
+                </div>
+            </div>
+        </div>        
+    }
+</fieldset>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+

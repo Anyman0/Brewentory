@@ -19,6 +19,15 @@
           <Property Name="EndShift" Type="nvarchar" MaxLength="20" />
           <Property Name="Loss" Type="int" />
         </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="30" />
+          <Property Name="Password" Type="varbinary" MaxLength="20" />
+        </EntityType>
         <EntityType Name="Inventory">
           <Key>
             <PropertyRef Name="LocationID" />
@@ -70,6 +79,7 @@
         </EntityType>
         <EntityContainer Name="BrewentoryDBModelStoreContainer">
           <EntitySet Name="CompletedWork" EntityType="Self.CompletedWork" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LiveView" EntityType="Self.LiveView" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notetable" EntityType="Self.Notetable" Schema="dbo" store:Type="Tables" />
@@ -96,6 +106,7 @@
           <EntitySet Name="Shifts" EntityType="BrewentoryDBModel.Shift" />
           <EntitySet Name="CompletedWorks" EntityType="BrewentoryDBModel.CompletedWork" />
           <EntitySet Name="LiveViews" EntityType="BrewentoryDBModel.LiveView" />
+          <EntitySet Name="Employees" EntityType="BrewentoryDBModel.Employee" />
         </EntityContainer>
         <EntityType Name="Timesheet">
           <Key>
@@ -150,6 +161,15 @@
           <Property Name="Pallets" Type="Int32" />
           <Property Name="Quantity" Type="Int32" />
           <Property Name="LiveStatus" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="Binary" MaxLength="20" FixedLength="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -223,6 +243,16 @@
                 <ScalarProperty Name="Batch" ColumnName="Batch" />
                 <ScalarProperty Name="Product" ColumnName="Product" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="BrewentoryDBModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

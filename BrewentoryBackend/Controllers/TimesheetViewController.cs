@@ -71,12 +71,15 @@ namespace BrewentoryBackend.Controllers
         // GET: TimesheetView/Create
         public ActionResult Create()
         {
+            var employees = db.Employees;
+            if (employees != null)
+                ViewBag.data = employees;
             return View();
         }
 
         // POST: TimesheetView/Create
         [HttpPost]
-        public ActionResult Create(Timesheet timesheet)
+        public ActionResult Create(Timesheet timesheet, string Employee)
         {
             /*try
             {
@@ -88,6 +91,9 @@ namespace BrewentoryBackend.Controllers
             {
                 return View();
             }*/
+            var name = Employee;
+            if (name != null) timesheet.Name = name;
+            
             if (ModelState.IsValid)
             {
                 db.Timesheets.Add(timesheet);

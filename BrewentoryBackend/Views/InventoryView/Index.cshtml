@@ -65,7 +65,7 @@
         {
             try
             {
-                var text = entry;
+                var text = entry.ToUpper();
                 if (item.Location.Contains(text) || item.Product.Contains(text) || item.Quantity.Contains(text))
                 {
                     <tr>

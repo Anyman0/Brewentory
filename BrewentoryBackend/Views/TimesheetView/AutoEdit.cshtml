@@ -32,9 +32,10 @@
             </div>
         </div>
 
-        <div class="form-group">    
+        <div class="form-group">
+            @Html.Label("Shift", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Shifts", new SelectList(ViewBag.data, "ShiftID", "ShiftName"), "Select Shift")                
+                @Html.DropDownList("Shifts", new SelectList(ViewBag.data, "ShiftID", "ShiftName"), "Select Shift")
             </div>
         </div>
 

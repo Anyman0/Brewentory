@@ -184,6 +184,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CompletedWorkApiController.cs" />
     <Compile Include="Controllers\CompletedWorkController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InventoryViewController.cs" />
@@ -211,6 +212,9 @@
       <DependentUpon>BrewentoryDBModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\CompletedWork.cs">
+      <DependentUpon>BrewentoryDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\Employee.cs">
       <DependentUpon>BrewentoryDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\Inventory.cs">
@@ -319,6 +323,11 @@
     <Content Include="Views\CompletedWork\Delete.cshtml" />
     <Content Include="Views\CompletedWork\DeleteAll.cshtml" />
     <Content Include="Views\TimesheetView\NewWeek.cshtml" />
+    <Content Include="Views\Employees\Create.cshtml" />
+    <Content Include="Views\Employees\Delete.cshtml" />
+    <Content Include="Views\Employees\Details.cshtml" />
+    <Content Include="Views\Employees\Edit.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

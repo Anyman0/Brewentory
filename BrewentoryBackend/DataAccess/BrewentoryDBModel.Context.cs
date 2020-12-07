@@ -31,5 +31,6 @@ namespace BrewentoryBackend.DataAccess
         public virtual DbSet<Shift> Shifts { get; set; }
         public virtual DbSet<CompletedWork> CompletedWorks { get; set; }
         public virtual DbSet<LiveView> LiveViews { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
     }
 }
