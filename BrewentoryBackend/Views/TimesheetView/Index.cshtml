@@ -64,10 +64,10 @@
             @Html.DisplayFor(modelItem => item.Friday)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeID }) |
-            <!--@Html.ActionLink("Details", "Details", new { id=item.EmployeeID }) | Details commented out since we prolly dont need em. --> 
-            @Html.ActionLink("Delete", "Delete", new { id=item.EmployeeID }) |
-            @Html.ActionLink("AutoEdit", "AutoEdit", new { id = item.EmployeeID })             
+            @Html.ActionLink("Edit", "Edit", new { id=item.SheetID }) |
+            <!--@Html.ActionLink("Details", "Details", new { id=item.SheetID }) | Details commented out since we prolly dont need em. --> 
+            @Html.ActionLink("Delete", "Delete", new { id=item.SheetID }) |
+            @Html.ActionLink("AutoEdit", "AutoEdit", new { id = item.SheetID })             
         </td>
     </tr>
 }

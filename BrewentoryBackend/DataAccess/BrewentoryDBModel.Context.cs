@@ -26,11 +26,12 @@ namespace BrewentoryBackend.DataAccess
         }
     
         public virtual DbSet<Inventory> Inventories { get; set; }
-        public virtual DbSet<Timesheet> Timesheets { get; set; }
         public virtual DbSet<Notetable> Notetables { get; set; }
         public virtual DbSet<Shift> Shifts { get; set; }
         public virtual DbSet<CompletedWork> CompletedWorks { get; set; }
         public virtual DbSet<LiveView> LiveViews { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<Timesheet> Timesheets { get; set; }
     }
 }

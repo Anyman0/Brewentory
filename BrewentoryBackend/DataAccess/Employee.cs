@@ -18,5 +18,6 @@ namespace BrewentoryBackend.DataAccess
         public string Name { get; set; }
         public string Phone { get; set; }
         public byte[] Password { get; set; }
+        public Nullable<bool> LoggedIn { get; set; }
     }
 }

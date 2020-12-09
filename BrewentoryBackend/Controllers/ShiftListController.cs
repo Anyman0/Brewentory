@@ -21,7 +21,7 @@ namespace BrewentoryBackend.Controllers
 
             try
             {
-                shifts = (from s in entities.Timesheets select s.EmployeeID + ", " + s.Week + ", " + s.Name + ", " + s.Monday + ", " + s.Tuesday + ", " + s.Wednesday + ", " + s.Thursday + ", " + s.Friday).ToArray();
+                shifts = (from s in entities.Timesheets select s.SheetID + ", " + s.Week + ", " + s.Name + ", " + s.Monday + ", " + s.Tuesday + ", " + s.Wednesday + ", " + s.Thursday + ", " + s.Friday).ToArray();
             }
             finally
             {
@@ -78,11 +78,11 @@ namespace BrewentoryBackend.Controllers
             try
             {
                 int empID = employeeID;
-                Timesheet timesheet = (from ts in entities.Timesheets where(ts.Name != null) && (ts.EmployeeID == empID) select ts).FirstOrDefault();
+                Timesheet timesheet = (from ts in entities.Timesheets where(ts.Name != null) && (ts.SheetID == empID) select ts).FirstOrDefault();
 
                 BrewentoryModel chosenEmployeeModel = new BrewentoryModel()
                 {
-                    EmployeeID = timesheet.EmployeeID,
+                    SheetID = timesheet.SheetID,
                     Week = timesheet.Week,
                     Name = timesheet.Name,
                     Monday = timesheet.Monday,
@@ -175,7 +175,7 @@ namespace BrewentoryBackend.Controllers
                 }
                 else if(model.Operation == "Edit")
                 {
-                    Timesheet timesheet = (from t in entities.Timesheets where (t.EmployeeID == model.EmployeeID) select t).FirstOrDefault();
+                    Timesheet timesheet = (from t in entities.Timesheets where (t.SheetID == model.SheetID) select t).FirstOrDefault();
                     if(timesheet != null)
                     {
                         timesheet.Week = model.Week;
@@ -203,7 +203,7 @@ namespace BrewentoryBackend.Controllers
                 }
                 else if(model.Operation == "Delete")
                 {
-                    Timesheet timesheet = (from t in entities.Timesheets where (t.EmployeeID == model.EmployeeID) select t).FirstOrDefault();
+                    Timesheet timesheet = (from t in entities.Timesheets where (t.SheetID == model.SheetID) select t).FirstOrDefault();
                     if (timesheet != null)
                     {
                         entities.Timesheets.Remove(timesheet);

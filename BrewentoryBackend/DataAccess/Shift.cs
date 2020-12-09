@@ -14,8 +14,17 @@ namespace BrewentoryBackend.DataAccess
     
     public partial class Shift
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Shift()
+        {
+            this.Timesheets = new HashSet<Timesheet>();
+        }
+    
         public int ShiftID { get; set; }
         public string ShiftName { get; set; }
         public string ShiftTimes { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Timesheet> Timesheets { get; set; }
     }
 }

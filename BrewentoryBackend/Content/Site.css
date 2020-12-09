@@ -28,3 +28,11 @@ textarea {
     border-radius: 100%;
     background-color: yellow;    
 }
+.topcorner {
+    position:absolute;
+    top:50px;
+    right: 10px;
+}
+.loginLabel {
+    color:ghostwhite
+}

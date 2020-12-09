@@ -9,12 +9,14 @@ using System.Data.Entity;
 using System.Dynamic;
 using Brewentory.Models;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace BrewentoryBackend.Controllers
 {
     public class TimesheetViewController : Controller
     {
         private BrewentoryDBEntities1 db = new BrewentoryDBEntities1();
+        private ObservableCollection<BrewentoryModel> model = new ObservableCollection<BrewentoryModel>();
         private string shiftName;
         private int prevWeek;
         private bool removeWeek = false;
@@ -32,7 +34,7 @@ namespace BrewentoryBackend.Controllers
                 model.WeekNo = w.Week;
                 break;
             }            
-            //PostWeek(model);   */         
+            //PostWeek(model);   */                   
             return View(timesheets.ToList());
         }
 
@@ -71,15 +73,22 @@ namespace BrewentoryBackend.Controllers
         // GET: TimesheetView/Create
         public ActionResult Create()
         {
-            var employees = db.Employees;
+            var employees = db.Employees;           
             if (employees != null)
                 ViewBag.data = employees;
+            var shifts = db.Shifts;
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach(var item in shifts)
+            {
+                items.Add(new SelectListItem { Text = item.ShiftName });
+            }            
+            ViewData["ListItems"] = items;
             return View();
         }
 
         // POST: TimesheetView/Create
         [HttpPost]
-        public ActionResult Create(Timesheet timesheet, string Employee)
+        public ActionResult Create(Timesheet timesheet, string Employee, string ShiftName)
         {
             /*try
             {
@@ -93,6 +102,19 @@ namespace BrewentoryBackend.Controllers
             }*/
             var name = Employee;
             if (name != null) timesheet.Name = name;
+
+            var shifts = db.Shifts;
+            foreach(var item in shifts)
+            {
+                if(ShiftName == item.ShiftName)
+                {
+                    timesheet.Monday = item.ShiftTimes;
+                    timesheet.Tuesday = item.ShiftTimes;
+                    timesheet.Wednesday = item.ShiftTimes;
+                    timesheet.Thursday = item.ShiftTimes;
+                    timesheet.Friday = item.ShiftTimes;
+                }
+            }
             
             if (ModelState.IsValid)
             {
@@ -237,6 +259,7 @@ namespace BrewentoryBackend.Controllers
                         timesheet.Wednesday = shift.ShiftTimes;
                         timesheet.Thursday = shift.ShiftTimes;
                         timesheet.Friday = shift.ShiftTimes;
+                        timesheet.ShiftID = shift.ShiftID;
                         break;
                     }
                 }

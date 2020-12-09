@@ -26,15 +26,25 @@
                     <li>@Html.ActionLink("Notes", "Index", "NoteView")</li>
                     <li>@Html.ActionLink("Inventory", "Index", "InventoryView")</li>
                     <li>@Html.ActionLink("Completed Work", "Index", "CompletedWork")</li>
+                    <li>@Html.ActionLink("Login", "Index", "Login")</li>
                 </ul>
             </div>
         </div>
+        <!--<div class="topcorner">
+            <div class="form-group">
+                Html.Label("Name", htmlAttributes: new { class = "loginLabel" })
+                <div class="col-md-10">
+                    Html.DropDownList("Employee", new SelectList(ViewBag.data, "Name", "Name"), "Select")
+                </div>
+            </div>
+        </div>-->
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Brewentory</p>
+            <h4 style="padding-top:1em; position:center; font-family:'Century Gothic'; font-weight: bold">@Html.DisplayText("Welcome!")</h4>
         </footer>
     </div>
 
@@ -43,3 +53,5 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+

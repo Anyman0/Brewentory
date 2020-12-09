@@ -128,7 +128,7 @@ namespace Brewentory
                     data = new BrewentoryModel()
                     {
                         Operation = "Edit",
-                        EmployeeID = employeeId,
+                        SheetID = employeeId,
                         Week = int.Parse(WeekEntry.Text),
                         Name = NameEntry.Text,
                         Monday = MondayEntry.Text,
@@ -157,7 +157,7 @@ namespace Brewentory
                     data = new BrewentoryModel()
                     {
                         Operation = "Delete",
-                        EmployeeID = employeeId,
+                        SheetID = employeeId,
                         Week = int.Parse(WeekEntry.Text),
                         Name = NameEntry.Text,
                         Monday = MondayEntry.Text,
@@ -173,7 +173,7 @@ namespace Brewentory
                 {
                     for (int i = 0; i < shiftModel.Count; i++)
                     {
-                        if (shiftModel[i].EmployeeID == employeeId)
+                        if (shiftModel[i].SheetID == employeeId)
                         {
                             if (actionName == "Edit")
                             {

@@ -39,7 +39,7 @@ namespace Brewentory.Models
         public string Note { get; set; }
 
         // Timesheet fields
-        public int EmployeeID { get; set; }
+        public int SheetID { get; set; }
         public int Week { get; set; }
         public string Name { get; set; }
         public string Monday { get; set; }
@@ -61,10 +61,18 @@ namespace Brewentory.Models
 
         public bool BtnVisibility { get; set; }
 
+        // Employees
+        public int EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public string Phone { get; set; } 
+        public string Password { get; set; }
+        public bool LoggedIn { get; set; }
+
         // Shared 
         public string Operation { get; set; }
         public int WeekNo { get; set; }
         public bool VisibleOrNot { get; set; } 
+        public string User { get; set; }
 
     }
 }

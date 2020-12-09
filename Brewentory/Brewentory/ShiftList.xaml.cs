@@ -75,7 +75,7 @@ namespace Brewentory
             for (int i = 0; i < sortedShiftArray.Count(); i++)
             {
                 string[] data = sortedShiftArray[i].Split(",");
-                shiftCollection.Add(new BrewentoryModel { EmployeeID = int.Parse(data[0]), Week = int.Parse(data[1]), Name = data[2], Monday = data[3], Tuesday = data[4], Wednesday = data[5], Thursday = data[6], Friday = data[7]});            
+                shiftCollection.Add(new BrewentoryModel { SheetID = int.Parse(data[0]), Week = int.Parse(data[1]), Name = data[2], Monday = data[3], Tuesday = data[4], Wednesday = data[5], Thursday = data[6], Friday = data[7]});            
             }
             
             shiftsList.ItemsSource = shiftCollection;
@@ -96,12 +96,12 @@ namespace Brewentory
                 
                 var item = shiftsList.SelectedItem as BrewentoryModel;
                 action = "Edit";
-                if(item.EmployeeID == 0)
+                if(item.SheetID == 0)
                 {
                     await GetIdAfterChange(item.Week, item.Name);
                 }
                 else
-                employeeID = item.EmployeeID;
+                employeeID = item.SheetID;
                 string selectedItem = item.Name.TrimStart();
                 await Navigation.PushPopupAsync(new TimesheetPopupView(selectedItem, action, employeeID, shiftCollection));                
             }
@@ -117,7 +117,7 @@ namespace Brewentory
             {
                 var item = shiftsList.SelectedItem as BrewentoryModel;
                 action = "Delete";
-                employeeID = item.EmployeeID;
+                employeeID = item.SheetID;
                 string selectedItem = item.Name.TrimStart();
                 await Navigation.PushPopupAsync(new TimesheetPopupView(selectedItem, action, employeeID, shiftCollection));
             }

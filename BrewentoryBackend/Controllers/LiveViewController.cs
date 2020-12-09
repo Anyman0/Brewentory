@@ -1,4 +1,5 @@
-﻿using BrewentoryBackend.DataAccess;
+﻿using Brewentory.Models;
+using BrewentoryBackend.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,8 +17,10 @@ namespace BrewentoryBackend.Controllers
 
         // GET: LiveView
         public ActionResult Index()
-        {
-            var liveView = db.LiveViews;            
+        {           
+            var liveView = db.LiveViews;
+            var employees = db.Employees;
+            if (employees != null) ViewBag.data = employees;
             return View(liveView.ToList());
         }
 

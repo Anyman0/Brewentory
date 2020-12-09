@@ -18,7 +18,7 @@ namespace BrewentoryBackend.Controllers
         
         // GET: Employees
         public ActionResult Index()
-        {
+        {            
             return View(db.Employees.ToList());
         }
 
