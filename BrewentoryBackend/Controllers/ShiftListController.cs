@@ -30,8 +30,7 @@ namespace BrewentoryBackend.Controllers
 
             return shifts;
             
-        }
-        // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< CONTINUE HERE. GET DATA TO EDITSHIFTSVIEW FROM HERE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        }        
         // GET: api/shiftlist/shiftList
         public IEnumerable<string> GetShifts(string shiftList)
         {

@@ -66,7 +66,7 @@ namespace Brewentory
 
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://brewentory.azurewebsites.net");
-            string json = await client.GetStringAsync("/api/shiftlist");
+            string json = await client.GetStringAsync("api/shiftlist/");
             shiftArray = JsonConvert.DeserializeObject<string[]>(json);
             var sortedArray = shiftArray.OrderBy(x => { var week = x.Split(","); return int.Parse(week[1]); });
             string[] sortedShiftArray = sortedArray.ToArray<string>();            

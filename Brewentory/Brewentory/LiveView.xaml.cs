@@ -21,9 +21,10 @@ namespace Brewentory
         private int productID;
         
         private ObservableCollection<BrewentoryModel> liveData;
-		public LiveView ()
+              
+        public LiveView ()
 		{
-			InitializeComponent ();            
+			InitializeComponent ();                  
             // Toolbar items
             var goToInventory = new ToolbarItem()
             {
@@ -51,8 +52,20 @@ namespace Brewentory
                 Text = "Notes"
             };
             goToNotes.Clicked += GoToNotes_Clicked;
-            ToolbarItems.Add(goToNotes);            
+            ToolbarItems.Add(goToNotes);
+            var goToLogin = new ToolbarItem()
+            {
+                Text = "Login"
+            };
+            goToLogin.Clicked += GoToLogin_Clicked;
+            ToolbarItems.Add(goToLogin);
+            
 		}
+
+        private async void GoToLogin_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new LoginPage());
+        }
 
         private async void GoToNotes_Clicked(object sender, EventArgs e)
         {

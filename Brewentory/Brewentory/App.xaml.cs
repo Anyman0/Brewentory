@@ -1,4 +1,6 @@
+using Brewentory.Data;
 using System;
+using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,14 +9,27 @@ namespace Brewentory
 {
 	public partial class App : Application
 	{
-		public App ()
+        static LoginDatabase lDatabase;
+        public App ()
 		{
 			InitializeComponent();
 
             MainPage = new NavigationPage(new LiveView());
 		}
 
-		protected override void OnStart ()
+        public static LoginDatabase LDatabase
+        {
+            get
+            {
+                if (lDatabase == null)
+                {
+                    lDatabase = new LoginDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LoginData.db"));
+                }
+
+                return lDatabase;
+            }
+        }
+        protected override void OnStart ()
 		{
 			// Handle when your app starts
 		}

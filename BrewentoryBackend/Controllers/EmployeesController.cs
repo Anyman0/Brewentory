@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using BrewentoryBackend.DataAccess;
 
 namespace BrewentoryBackend.Controllers
@@ -18,8 +19,27 @@ namespace BrewentoryBackend.Controllers
         
         // GET: Employees
         public ActionResult Index()
-        {            
-            return View(db.Employees.ToList());
+        {
+            object view;
+            var emps = db.Employees;
+            Employee employee = new Employee();            
+            foreach(var emp in emps)
+            {
+                if(emp.LoggedIn == true)
+                {
+                    employee = emp;
+                }
+            }
+            // If user enters here without logging in, show nothing. If user is logged is as any other than Admin, show only his data. Show all if logged in as Admin.
+            /*if (employee.Name != null && employee.Name != "Admin")
+                view = db.Employees.Where(x => x.Name == employee.Name);
+            else if (employee.Name == "Admin")
+            {
+                view = db.Employees.ToList();
+            }
+            else view = db.Employees.Where(x => x.Name == "ReturnNull");*/
+            view = db.Employees.ToList();
+            return View(view);          
         }
 
         // GET: Employees/Details/5
@@ -50,7 +70,7 @@ namespace BrewentoryBackend.Controllers
             int ex = int.Parse(Request["existingID"]);
             Employee emp = db.Employees.Find(ex);
 
-            if (MatchSHA1(emp.Password, GetSHA1(emp.EmployeeID.ToString(), Request["oldPass"])))
+            if (MatchSHA1(emp.Password, GetSHA1(emp.EmployeeID.ToString(), Request["oldPass"])) || emp.Password == null)
             {
                 if(Request["newPass"] == Request["confirmednewPass"])
                 {

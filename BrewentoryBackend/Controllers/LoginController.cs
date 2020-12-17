@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
+using System.ServiceModel.Channels;
 using System.Web;
 using System.Web.Mvc;
 
@@ -19,7 +20,7 @@ namespace BrewentoryBackend.Controllers
         [HttpGet]
         public ActionResult Index()
         {                        
-            var employees = db.Employees;
+            var employees = db.Employees;            
             foreach(var employee in employees)
             {
                 if (employee.LoggedIn == true)
@@ -53,6 +54,7 @@ namespace BrewentoryBackend.Controllers
                     if (emp.LoggedIn == false)
                         emp.LoggedIn = true;
                     model.User = emp.Name;
+                    
                 }
                 else if (!MatchSHA1(emp.Password, GetSHA1(emp.EmployeeID.ToString(), Request["enteredPassword"])))
                 {
